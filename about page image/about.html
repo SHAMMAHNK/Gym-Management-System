@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | Gym Management System</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #f5f6fa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Navbar */
+    header {
+      background: #111;
+      color: #fff;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #f1c40f;
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: #fff;
+      border-radius: 3px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links.active {
+      display: block;
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    /* About Section */
+    .about-section {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    .about-section h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2rem;
+      color: #222;
+    }
+
+    .about-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .about-text {
+      flex: 1 1 55%;
+    }
+
+    .about-text p {
+      margin-bottom: 15px;
+      font-size: 1rem;
+      color: #555;
+    }
+
+    .about-image {
+      flex: 1 1 40%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .about-image img {
+      width: 100%;
+      max-width: 350px;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease;
+    }
+
+    .about-image img:hover {
+      transform: scale(1.05);
+    }
+
+    /* Team Section */
+    .team {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .team h3 {
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      color: #111;
+    }
+
+    .team-members {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .member {
+      background: #fafafa;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+      width: 200px;
+      transition: transform 0.3s;
+    }
+
+    .member:hover {
+      transform: translateY(-5px);
+    }
+
+    .member img {
+      width: 100%;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    .member h4 {
+      margin-bottom: 5px;
+      font-size: 1.1rem;
+      color: #222;
+    }
+
+    .member p {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 40px;
+      padding: 20px;
+      background: #111;
+      color: #fff;
+      text-align: center;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        background: #222;
+        width: 100%;
+        padding: 10px 0;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .about-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .about-image img {
+        max-width: 250px;
+      }
+
+      .team-members {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Gym Management</h1>
+    <div class="hamburger" id="hamburger">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <nav id="nav-links" class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <section class="about-section">
+    <h2>About Us</h2>
+    <div class="about-content">
+      <div class="about-text">
+        <p>
+          Welcome to our <strong>Gym Management System</strong>, a platform designed to simplify fitness center operations. 
+          Our system helps gyms manage memberships, track attendance, schedule training sessions, and monitor billing with ease.
+        </p>
+        <p>
+          We aim to create a seamless experience for both gym owners and members, ensuring better communication, organization, 
+          and fitness tracking. With modern features and a user-friendly design, our platform empowers gyms to focus on what matters most: <em>helping members achieve their fitness goals.</em>
+        </p>
+        <p>
+          Whether you’re a small local gym or a large fitness chain, our system is built to adapt to your needs.
+        </p>
+      </div>
+      <div class="about-image">
+        <img src="WhatsApp Image 2025-08-20 at 14.56.36_a5923ec2.jpg" alt="Gym Image">
+      </div>
+    </div>
+
+    <div class="team">
+      <h3>Meet Our Team</h3>
+      <div class="team-members">
+        <div class="member">
+          <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Team Member">
+          <h4>Dice</h4>
+          <p>Founder & CEO</p>
+        </div>
+        <div class="member">
+          <img src="https://randomuser.me/api/portraits/women/50.jpg" alt="Team Member">
+          <h4>shama</h4>
+          <p>Project Manager</p>
+        </div>
+        <div class="member">
+          <img src="https://randomuser.me/api/portraits/men/60.jpg" alt="Team Member">
+          <h4>Aben</h4>
+          <p>Lead Developer</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Gym Management System. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const hamburger = document.getElementById("hamburger");
+    const navLinks = document.getElementById("nav-links");
+
+    hamburger.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+      if (navLinks.style.display === "flex") {
+        navLinks.style.display = "none";
+      } else {
+        navLinks.style.display = "flex";
+      }
+    });
+  </script>
+</body>
+</html>
