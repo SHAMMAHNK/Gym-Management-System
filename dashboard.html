@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Gym Master</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 0 1.5rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 1rem 0;
+        }
+
+        .nav-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-menu a {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            background-color: rgba(255,255,255,0.1);
+            border-right: 3px solid #ffd700;
+        }
+
+        .nav-menu i {
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 2rem;
+            transition: margin-left 0.3s ease;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Statistics Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Dashboard Sections */
+        .dashboard-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f1f3f4;
+        }
+
+        .section-header h2 {
+            color: #2c3e50;
+            font-size: 1.5rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .data-table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .data-table tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-inactive {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-header h3 {
+            color: #2c3e50;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        /* Charts */
+        .chart-container {
+            height: 300px;
+            margin-top: 1rem;
+        }
+
+        .chart-placeholder {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            height: 100%;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 280px;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+                position: fixed;
+                top: 1rem;
+                left: 1rem;
+                z-index: 2000;
+                background: #667eea;
+                color: white;
+                border: none;
+                padding: 0.5rem;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .data-table {
+                font-size: 0.875rem;
+            }
+            
+            .data-table th,
+            .data-table td {
+                padding: 0.5rem;
+            }
+        }
+
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .mb-2 { margin-bottom: 2rem; }
+        .mt-2 { margin-top: 2rem; }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Toggle -->
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Gym Master</h2>
+            <p>Admin Dashboard</p>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="#" class="active"><i>📊</i> Dashboard</a></li>
+            <li><a href="#trainers"><i>👥</i> Trainers</a></li>
+            <li><a href="#sessions"><i>📅</i> Sessions</a></li>
+            <li><a href="#members"><i>👤</i> Members</a></li>
+            <li><a href="#analytics"><i>📈</i> Analytics</a></li>
+            <li><a href="index.html"><i>🏠</i> Back to Site</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1>Admin Dashboard</h1>
+            <div class="user-info">
+                <div class="user-avatar">AM</div>
+                <span>Admin User</span>
+            </div>
+        </div>
+
+        <!-- Statistics Overview -->
+        <div class="stats-grid">
+            <div class="stat-card animate-fade-in">
+                <div class="stat-icon">👥</div>
+                <div class="stat-number" data-stat="members">0</div>
+                <div class="stat-label">Total Members</div>
+            </div>
+            <div class="stat-card animate-fade-in">
+                <div class="stat-icon">🏋️</div>
+                <div class="stat-number" data-stat="trainers">0</div>
+                <div class="stat-label">Active Trainers</div>
+            </div>
+            <div class="stat-card animate-fade-in">
+                <div class="stat-icon">📅</div>
+                <div class="stat-number" data-stat="sessions">0</div>
+                <div class="stat-label">Upcoming Sessions</div>
+            </div>
+            <div class="stat-card animate-fade-in">
+                <div class="stat-icon">💰</div>
+                <div class="stat-number" data-stat="revenue">$0</div>
+                <div class="stat-label">Monthly Revenue</div>
+            </div>
+        </div>
+
+        <!-- Trainer Management Section -->
+        <section id="trainers" class="dashboard-section">
+            <div class="section-header">
+                <h2>Trainer Management</h2>
+                <button class="btn" onclick="openModal('addTrainerModal')">Add New Trainer</button>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Specialty</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Active Sessions</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Sarah Johnson</td>
+                            <td>HIIT & Strength</td>
+                            <td>sarah@email.com</td>
+                            <td>(555) 123-4567</td>
+                            <td>5 sessions</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td class="action-buttons">
+                                <button class="btn btn-sm" onclick="editTrainer(1)">Edit</button>
+                                <button class="btn btn-sm btn-secondary" onclick="viewSessions(1)">Sessions</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Mike Rodriguez</td>
+                            <td>CrossFit</td>
+                            <td>mike@email.com</td>
+                            <td>(555) 234-5678</td>
+                            <td>3 sessions</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td class="action-buttons">
+                                <button class="btn btn-sm" onclick="editTrainer(2)">Edit</button>
+                                <button class="btn btn-sm btn-secondary" onclick="viewSessions(2)">Sessions</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Emma Lee</td>
+                            <td>Yoga & Pilates</td>
+                            <td>emma@email.com</td>
+                            <td>(555) 345-6789</td>
+                            <td>4 sessions</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td class="action-buttons">
+                                <button class="btn btn-sm" onclick="editTrainer(3)">Edit</button>
+                                <button class="btn btn-sm btn-secondary" onclick="viewSessions(3)">Sessions</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>David Chen</td>
+                            <td>Boxing & MMA</td>
+                            <td>david@email.com</td>
+                            <td>(555) 456-7890</td>
+                            <td>2 sessions</td>
+                            <td><span class="status-badge status-inactive">Inactive</span></td>
+                            <td class="action-buttons">
+                                <button class="btn btn-sm" onclick="editTrainer(4)">Edit</button>
+                                <button class="btn btn-sm btn-secondary" onclick="viewSessions(4)">Sessions</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Session Management Section -->
+        <section id="sessions" class="dashboard-section">
+            <div class="section-header">
+                <h2>Session Management</h2>
+                <button class="btn" onclick="openModal('addSessionModal')">Schedule New Session</button>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Session Name</th>
+                            <th>Trainer</th>
+                            <th>Date & Time</th>
+                            <th>Duration</th>
+                            <th>Capacity</th>
+                            <th>Booked</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Morning HIIT Blast</td>
+                            <td>Sarah Johnson</td>
+                            <td>Mon, Dec 15 - 6:00 AM</td>
+                            <td>45 min</td>
+                            <td>20</td>
+                            <td>18/20</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td class="action-buttons">
+                                <button class="btn btn-sm" onclick="editSession(1)">Edit</button>
+                                <button class="btn btn-sm btn-secondary" onclick="cancelSession(1)">Cancel</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Yoga Flow Basics</td>
+                            <td>Emma Lee</td>
+                            <td>Mon, Dec 15 - 8:00 AM</td>
+                            <td>60 min</td>
+                            <td>15</td>
+                            <td>12/15</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td class="action-buttons">
+                                <button class="btn btn-sm" onclick="editSession(2)">Edit</button>
+                                <button class="btn btn-sm btn-secondary" onclick="cancelSession(2)">Cancel</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>CrossFit WOD</td>
+                            <td>Mike Rodriguez</td>
+                            <td>Mon, Dec 15 - 12:00 PM</td>
+                            <td>60 min</td>
+                            <td>12</td>
+                            <td>10/12</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td class="action-buttons">
+                                <button class="btn btn-sm" onclick="editSession(3)">Edit</button>
+                                <button class="btn btn-sm btn-secondary" onclick="cancelSession(3)">Cancel</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Evening Spin Class</td>
+                            <td>Sarah Johnson</td>
+                            <td>Mon, Dec 15 - 6:00 PM</td>
+                            <td>45 min</td>
+                            <td>25</td>
+                            <td>22/25</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td class="action-buttons">
+                                <button class="btn btn-sm" onclick="editSession(4)">Edit</button>
+                                <button class="btn btn-sm btn-secondary" onclick="cancelSession(4)">Cancel</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Member Management Section -->
+        <section id="members" class="dashboard-section">
+            <div class="section-header">
+                <h2>Member Management</h2>
+                <button class="btn" onclick="openModal('addMemberModal')">Add New Member</button>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Member ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Membership</th>
+                            <th>Join Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>M001</td>
+                            <td>John Smith</td>
+                            <td>john@email.com</td>
+                            <td>(555) 987-6543</td>
+                            <td>Premium</td>
+                            <td>Jan 15, 2024</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td class="action-buttons">
+                                <button class="btn btn-sm" onclick="editMember(1)">Edit</button>
+                                <button class="btn btn-sm btn-secondary" onclick="viewProfile(1)">View</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>M002</td>
+                            <td>Jane Doe</td>
+                            <td>jane@email.com</td>
+                            <td>(555) 876-5432</td>
+                            <td>Elite</td>
+                            <td>Feb 20, 2024</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td class="action-buttons">
+                                <button class="btn btn-sm" onclick="editMember(2)">Edit</button>
+                                <button class="btn btn-sm btn-secondary" onclick="viewProfile(2)">View</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>M003</td>
+                            <td>Robert Brown</td>
+                            <td>robert@email.com</td>
+                            <td>(555) 765-4321</td>
+                            <td>Basic</td>
+                            <td>Mar 10, 2024</td>
+                            <td><span class="status-badge status-active">Active</span></td>
+                            <td class="action-buttons">
+                                <button class="btn btn-sm" onclick="editMember(3)">Edit</button>
+                                <button class="btn btn-sm btn-secondary" onclick="viewProfile(3)">View</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section id="analytics" class="dashboard-section">
+            <div class="section-header">
+                <h2>Analytics & Reports</h2>
+                <button class="btn" onclick="generateReport()">Generate Report</button>
+            </div>
+            
+            <div class="form-grid">
+                <div>
+                    <h3>Revenue Overview</h3>
+                    <div class="chart-container">
+                        <div class="chart-placeholder">
+                            Revenue Chart - $12,847 Total
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3>Attendance Trends</h3>
+                    <div class="chart-container">
+                        <div class="chart-placeholder">
+                            Attendance Chart - 85% Average
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-2">
+                <h3>Class Popularity</h3>
+                <div class="chart-container">
+                    <div class="chart-placeholder">
+                        Class Popularity Chart - HIIT: 45%, Yoga: 30%, CrossFit: 25%
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add Trainer Modal -->
+    <div id="addTrainerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Trainer</h3>
+                <span class="close" onclick="closeModal('addTrainerModal')">&times;</span>
+            </div>
+            <form id="trainerForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="trainerName">Full Name *</label>
+                        <input type="text" id="trainerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="trainerSpecialty">Specialty *</label>
+                        <select id="trainerSpecialty" required>
+                            <option value="">Select Specialty</option>
+                            <option value="hiit">HIIT & Strength</option>
+                            <option value="yoga">Yoga & Pilates</option>
+                            <option value="crossfit">CrossFit</option>
+                            <option value="boxing">Boxing & MMA</option>
+                            <option value="cardio">Cardio</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="trainerEmail">Email *</label>
+                        <input type="email" id="trainerEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="trainerPhone">Phone *</label>
+                        <input type="tel" id="trainerPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="trainerStatus">Status</label>
+                        <select id="trainerStatus">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="trainerBio">Bio</label>
+                    <textarea id="trainerBio" rows="3"></textarea>
+                </div>
+                <div class="text-right">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('addTrainerModal')">Cancel</button>
+                    <button type="submit" class="btn">Save Trainer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Session Modal -->
+    <div id="addSessionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Schedule New Session</h3>
+                <span class="close" onclick="closeModal('addSessionModal')">&times;</span>
+            </div>
+            <form id="sessionForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="sessionName">Session Name *</label>
+                        <input type="text" id="sessionName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sessionTrainer">Trainer *</label>
+                        <select id="sessionTrainer" required>
+                            <option value="">Select Trainer</option>
+                            <option value="1">Sarah Johnson</option>
+                            <option value="2">Mike Rodriguez</option>
+                            <option value="3">Emma Lee</option>
+                            <option value="4">David Chen</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sessionDate">Date *</label>
+                        <input type="date" id="sessionDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sessionTime">Time *</label>
+                        <input type="time" id="sessionTime" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sessionDuration">Duration (minutes) *</label>
+                        <input type="number" id="sessionDuration" min="30" max="120" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sessionCapacity">Capacity *</label>
+                        <input type="number" id="sessionCapacity" min="1" max="50" required>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('addSessionModal')">Cancel</button>
+                    <button type="submit" class="btn">Schedule Session</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Data Management System
+        const GymData = {
+            // Initialize data storage
+            init() {
+                this.loadData();
+                if (!this.trainers.length) this.addSampleData();
+                this.updateAllViews();
+                setInterval(() => this.updateAllViews(), 30000); // Update every 30 seconds
+            },
+
+            // Data storage keys
+            storageKeys: {
+                trainers: 'gym_trainers',
+                sessions: 'gym_sessions',
+                members: 'gym_members'
+            },
+
+            // Data arrays
+            trainers: [],
+            sessions: [],
+            members: [],
+
+            // Load data from localStorage
+            loadData() {
+                this.trainers = JSON.parse(localStorage.getItem(this.storageKeys.trainers) || '[]');
+                this.sessions = JSON.parse(localStorage.getItem(this.storageKeys.sessions) || '[]');
+                this.members = JSON.parse(localStorage.getItem(this.storageKeys.members) || '[]');
+            },
+
+            // Save data to localStorage
+            saveData() {
+                localStorage.setItem(this.storageKeys.trainers, JSON.stringify(this.trainers));
+                localStorage.setItem(this.storageKeys.sessions, JSON.stringify(this.sessions));
+                localStorage.setItem(this.storageKeys.members, JSON.stringify(this.members));
+            },
+
+            // Add sample data
+            addSampleData() {
+                // Sample trainers
+                this.trainers = [
+                    { id: 1, name: 'Sarah Johnson', specialty: 'HIIT & Strength', email: 'sarah@email.com', phone: '(555) 123-4567', status: 'active', bio: 'Certified HIIT instructor with 5 years experience' },
+                    { id: 2, name: 'Mike Rodriguez', specialty: 'CrossFit', email: 'mike@email.com', phone: '(555) 234-5678', status: 'active', bio: 'CrossFit Level 2 trainer' },
+                    { id: 3, name: 'Emma Lee', specialty: 'Yoga & Pilates', email: 'emma@email.com', phone: '(555) 345-6789', status: 'active', bio: 'Yoga instructor specializing in Vinyasa flow' },
+                    { id: 4, name: 'David Chen', specialty: 'Boxing & MMA', email: 'david@email.com', phone: '(555) 456-7890', status: 'inactive', bio: 'Former professional boxer' }
+                ];
+
+                // Sample sessions
+                const today = new Date();
+                const tomorrow = new Date(today);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                
+                this.sessions = [
+                    { id: 1, name: 'Morning HIIT Blast', trainerId: 1, date: today.toISOString().split('T')[0], time: '06:00', duration: 45, capacity: 20, booked: 18, status: 'active' },
+                    { id: 2, name: 'Yoga Flow Basics', trainerId: 3, date: today.toISOString().split('T')[0], time: '08:00', duration: 60, capacity: 15, booked: 12, status: 'active' },
+                    { id: 3, name: 'CrossFit WOD', trainerId: 2, date: today.toISOString().split('T')[0], time: '12:00', duration: 60, capacity: 12, booked: 10, status: 'active' },
+                    { id: 4, name: 'Evening Spin Class', trainerId: 1, date: today.toISOString().split('T')[0], time: '18:00', duration: 45, capacity: 25, booked: 22, status: 'active' }
+                ];
+
+                // Sample members
+                this.members = [
+                    { id: 1, memberId: 'M001', name: 'John Smith', email: 'john@email.com', phone: '(555) 987-6543', membership: 'Premium', joinDate: '2024-01-15', status: 'active' },
+                    { id: 2, memberId: 'M002', name: 'Jane Doe', email: 'jane@email.com', phone: '(555) 876-5432', membership: 'Elite', joinDate: '2024-02-20', status: 'active' },
+                    { id: 3, memberId: 'M003', name: 'Robert Brown', email: 'robert@email.com', phone: '(555) 765-4321', membership: 'Basic', joinDate: '2024-03-10', status: 'active' }
+                ];
+
+                this.saveData();
+            },
+
+            // Statistics calculations
+            getStatistics() {
+                const activeTrainers = this.trainers.filter(t => t.status === 'active').length;
+                const upcomingSessions = this.sessions.filter(s => {
+                    const sessionDate = new Date(s.date + 'T' + s.time);
+                    return sessionDate > new Date() && s.status === 'active';
+                }).length;
+                
+                const totalRevenue = this.calculateMonthlyRevenue();
+                const totalMembers = this.members.filter(m => m.status === 'active').length;
+
+                return {
+                    totalMembers,
+                    activeTrainers,
+                    upcomingSessions,
+                    monthlyRevenue: totalRevenue
+                };
+            },
+
+            calculateMonthlyRevenue() {
+                // Simple revenue calculation based on memberships
+                const revenueMap = { Basic: 49, Premium: 99, Elite: 199 };
+                return this.members.reduce((total, member) => {
+                    return total + (revenueMap[member.membership] || 0);
+                }, 0);
+            },
+
+            // Trainer management
+            addTrainer(trainerData) {
+                const newId = Math.max(...this.trainers.map(t => t.id), 0) + 1;
+                const trainer = { id: newId, ...trainerData };
+                this.trainers.push(trainer);
+                this.saveData();
+                this.updateAllViews();
+                return trainer;
+            },
+
+            updateTrainer(id, trainerData) {
+                const index = this.trainers.findIndex(t => t.id === id);
+                if (index !== -1) {
+                    this.trainers[index] = { ...this.trainers[index], ...trainerData };
+                    this.saveData();
+                    this.updateAllViews();
+                    return true;
+                }
+                return false;
+            },
+
+            deleteTrainer(id) {
+                const index = this.trainers.findIndex(t => t.id === id);
+                if (index !== -1) {
+                    this.trainers.splice(index, 1);
+                    this.saveData();
+                    this.updateAllViews();
+                    return true;
+                }
+                return false;
+            },
+
+            // Session management
+            addSession(sessionData) {
+                const newId = Math.max(...this.sessions.map(s => s.id), 0) + 1;
+                const session = { id: newId, booked: 0, status: 'active', ...sessionData };
+                this.sessions.push(session);
+                this.saveData();
+                this.updateAllViews();
+                return session;
+            },
+
+            updateSession(id, sessionData) {
+                const index = this.sessions.findIndex(s => s.id === id);
+                if (index !== -1) {
+                    this.sessions[index] = { ...this.sessions[index], ...sessionData };
+                    this.saveData();
+                    this.updateAllViews();
+                    return true;
+                }
+                return false;
+            },
+
+            cancelSession(id) {
+                return this.updateSession(id, { status: 'cancelled' });
+            },
+
+            // Update all views
+            updateAllViews() {
+                this.updateStatistics();
+                this.updateTrainersTable();
+                this.updateSessionsTable();
+                this.updateMembersTable();
+                this.updateAnalytics();
+            },
+
+            // View update methods
+            updateStatistics() {
+                const stats = this.getStatistics();
+                document.querySelector('[data-stat="members"]').textContent = stats.totalMembers;
+                document.querySelector('[data-stat="trainers"]').textContent = stats.activeTrainers;
+                document.querySelector('[data-stat="sessions"]').textContent = stats.upcomingSessions;
+                document.querySelector('[data-stat="revenue"]').textContent = `$${stats.monthlyRevenue}`;
+            },
+
+            updateTrainersTable() {
+                const tbody = document.querySelector('#trainers .data-table tbody');
+                tbody.innerHTML = this.trainers.map(trainer => `
+                    <tr>
+                        <td>${trainer.name}</td>
+                        <td>${trainer.specialty}</td>
+                        <td>${trainer.email}</td>
+                        <td>${trainer.phone}</td>
+                        <td>${this.getTrainerSessionCount(trainer.id)} sessions</td>
+                        <td><span class="status-badge status-${trainer.status}">${trainer.status}</span></td>
+                        <td class="action-buttons">
+                            <button class="btn btn-sm" onclick="editTrainer(${trainer.id})">Edit</button>
+                            <button class="btn btn-sm btn-secondary" onclick="viewSessions(${trainer.id})">Sessions</button>
+                            <button class="btn btn-sm btn-secondary" onclick="deleteTrainer(${trainer.id})">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+            },
+
+            getTrainerSessionCount(trainerId) {
+                return this.sessions.filter(s => s.trainerId === trainerId && s.status === 'active').length;
+            },
+
+            updateSessionsTable() {
+                const tbody = document.querySelector('#sessions .data-table tbody');
+                tbody.innerHTML = this.sessions.map(session => {
+                    const trainer = this.trainers.find(t => t.id === session.trainerId);
+                    const sessionDate = new Date(session.date + 'T' + session.time);
+                    const formattedDate = sessionDate.toLocaleDateString('en-US', { 
+                        weekday: 'short', 
+                        month: 'short', 
+                        day: 'numeric' 
+                    });
+                    const formattedTime = sessionDate.toLocaleTimeString('en-US', { 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                    });
+
+                    return `
+                    <tr>
+                        <td>${session.name}</td>
+                        <td>${trainer ? trainer.name : 'Unknown'}</td>
+                        <td>${formattedDate} - ${formattedTime}</td>
+                        <td>${session.duration} min</td>
+                        <td>${session.capacity}</td>
+                        <td>${session.booked}/${session.capacity}</td>
+                        <td><span class="status-badge status-${session.status}">${session.status}</span></td>
+                        <td class="action-buttons">
+                            <button class="btn btn-sm" onclick="editSession(${session.id})">Edit</button>
+                            <button class="btn btn-sm btn-secondary" onclick="cancelSession(${session.id})">Cancel</button>
+                        </td>
+                    </tr>
+                `}).join('');
+            },
+
+            updateMembersTable() {
+                const tbody = document.querySelector('#members .data-table tbody');
+                tbody.innerHTML = this.members.map(member => `
+                    <tr>
+                        <td>${member.memberId}</td>
+                        <td>${member.name}</td>
+                        <td>${member.email}</td>
+                        <td>${member.phone}</td>
+                        <td>${member.membership}</td>
+                        <td>${new Date(member.joinDate).toLocaleDateString()}</td>
+                        <td><span class="status-badge status-${member.status}">${member.status}</span></td>
+                        <td class="action-buttons">
+                            <button class="btn btn-sm" onclick="editMember(${member.id})">Edit</button>
+                            <button class="btn btn-sm btn-secondary" onclick="viewProfile(${member.id})">View</button>
+                        </td>
+                    </tr>
+                `).join('');
+            },
+
+            updateAnalytics() {
+                // Update analytics charts with real data
+                const revenueElem = document.querySelector('#analytics .chart-placeholder:first-child');
+                const attendanceElem = document.querySelector('#analytics .chart-placeholder:nth-child(2)');
+                const popularityElem = document.querySelector('#analytics .chart-placeholder:last-child');
+                
+                const stats = this.getStatistics();
+                revenueElem.textContent = `Revenue Chart - $${stats.monthlyRevenue} Total`;
+                attendanceElem.textContent = 'Attendance Chart - 85% Average';
+                popularityElem.textContent = 'Class Popularity Chart - HIIT: 45%, Yoga: 30%, CrossFit: 25%';
+            }
+        };
+
+        // Initialize the data system
+        document.addEventListener('DOMContentLoaded', function() {
+            GymData.init();
+            
+            // Initialize date input with today's date
+            document.getElementById('sessionDate').valueAsDate = new Date();
+        });
+
+        // Modal functionality
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Mobile sidebar toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        // Form submissions
+        document.getElementById('trainerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const trainerData = {
+                name: document.getElementById('trainerName').value,
+                specialty: document.getElementById('trainerSpecialty').value,
+                email: document.getElementById('trainerEmail').value,
+                phone: document.getElementById('trainerPhone').value,
+                status: document.getElementById('trainerStatus').value,
+                bio: document.getElementById('trainerBio').value
+            };
+
+            GymData.addTrainer(trainerData);
+            closeModal('addTrainerModal');
+            this.reset();
+        });
+
+        document.getElementById('sessionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const sessionData = {
+                name: document.getElementById('sessionName').value,
+                trainerId: parseInt(document.getElementById('sessionTrainer').value),
+                date: document.getElementById('sessionDate').value,
+                time: document.getElementById('sessionTime').value,
+                duration: parseInt(document.getElementById('sessionDuration').value),
+                capacity: parseInt(document.getElementById('sessionCapacity').value)
+            };
+
+            GymData.addSession(sessionData);
+            closeModal('addSessionModal');
+            this.reset();
+        });
+
+        // Trainer functions
+        function editTrainer(id) {
+            const trainer = GymData.trainers.find(t => t.id === id);
+            if (trainer) {
+                document.getElementById('trainerName').value = trainer.name;
+                document.getElementById('trainerSpecialty').value = trainer.specialty;
+                document.getElementById('trainerEmail').value = trainer.email;
+                document.getElementById('trainerPhone').value = trainer.phone;
+                document.getElementById('trainerStatus').value = trainer.status;
+                document.getElementById('trainerBio').value = trainer.bio || '';
+                
+                // Store the current trainer ID for update
+                document.getElementById('trainerForm').dataset.editId = id;
+                openModal('addTrainerModal');
+            }
+        }
+
+        function deleteTrainer(id) {
+            if (confirm('Are you sure you want to delete this trainer?')) {
+                GymData.deleteTrainer(id);
+            }
+        }
+
+        function viewSessions(id) {
+            const trainer = GymData.trainers.find(t => t.id === id);
+            if (trainer) {
+                alert(`Viewing sessions for ${trainer.name}`);
+                // Scroll to sessions section
+                document.getElementById('sessions').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Session functions
+        function editSession(id) {
+            const session = GymData.sessions.find(s => s.id === id);
+            if (session) {
+                document.getElementById('sessionName').value = session.name;
+                document.getElementById('sessionTrainer').value = session.trainerId;
+                document.getElementById('sessionDate').value = session.date;
+                document.getElementById('sessionTime').value = session.time;
+                document.getElementById('sessionDuration').value = session.duration;
+                document.getElementById('sessionCapacity').value = session.capacity;
+                
+                // Store the current session ID for update
+                document.getElementById('sessionForm').dataset.editId = id;
+                openModal('addSessionModal');
+            }
+        }
+
+        function cancelSession(id) {
+            if (confirm('Are you sure you want to cancel this session?')) {
+                GymData.cancelSession(id);
+            }
+        }
+
+        // Member functions
+        function editMember(id) {
+            alert(`Editing member with ID: ${id} - This feature is coming soon!`);
+        }
+
+        function viewProfile(id) {
+            alert(`Viewing profile for member with ID: ${id} - This feature is coming soon!`);
+        }
+
+        function generateReport() {
+            const stats = GymData.getStatistics();
+            alert(`Report Generated!\n\nTotal Members: ${stats.totalMembers}\nActive Trainers: ${stats.activeTrainers}\nUpcoming Sessions: ${stats.upcomingSessions}\nMonthly Revenue: $${stats.monthlyRevenue}`);
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+                
+                // Update active nav link
+                document.querySelectorAll('.nav-menu a').forEach(a => a.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

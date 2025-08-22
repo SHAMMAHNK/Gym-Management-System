@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Gym Master</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo h2 {
+            color: white;
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #ffd700;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .about-hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23667eea" width="1200" height="600"/><path fill="%23764ba2" d="M0 300L50 325L100 300L150 275L200 300L250 325L300 300L350 275L400 300L450 325L500 300L550 275L600 300L650 325L700 300L750 275L800 300L850 325L900 300L950 275L1000 300L1050 325L1100 300L1150 275L1200 300V600H0V300Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 60px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Story Section */
+        .story-section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .story-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .story-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .story-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+        }
+
+        .story-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .story-image {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            height: 400px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            font-weight: bold;
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 5rem 0;
+            background: #f8f9fa;
+        }
+
+        .team-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .team-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .team-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .team-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .team-role {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .team-bio {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Values Section */
+        .values-section {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .values-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .value-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .value-icon {
+            font-size: 3.5rem;
+            color: #667eea;
+            margin-bottom: 1.5rem;
+        }
+
+        .value-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .value-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Achievements Section */
+        .achievements-section {
+            padding: 5rem 0;
+            background: #f8f9fa;
+        }
+
+        .achievements-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .achievement-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .achievement-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .achievement-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .achievement-card p {
+            color: #666;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn-primary {
+            background: #ffd700;
+            color: #333;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn-primary:hover {
+            transform: translateY(-3px);
+        }
+
+        .cta-btn-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .story-content {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid,
+            .values-grid,
+            .achievements-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.6s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Gym Master</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="class.html">Classes</a></li>
+                <li><a href="service.html">Services</a></li>
+                <li><a href="membership.html">Membership</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="hero-content">
+            <h1>Our Story</h1>
+            <p>Discover the passion and dedication behind Gym Master - where fitness meets community</p>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section class="story-section">
+        <div class="container">
+            <h2>Our Journey</h2>
+            <div class="story-content">
+                <div class="story-text">
+                    <p>Founded in 2010, Gym Master began as a small fitness studio with a big vision: to create a community where everyone feels welcome and empowered to achieve their fitness goals. What started as a single location has grown into a premier fitness destination serving thousands of members.</p>
+                    <p>Our founder, Sarah Johnson, started Gym Master with the belief that fitness should be accessible, enjoyable, and transformative. With over 15 years of experience in the fitness industry, she assembled a team of passionate professionals who share her vision for excellence.</p>
+                    <p>Today, we're proud to offer state-of-the-art facilities, cutting-edge equipment, and a supportive community that celebrates every milestone. From beginners to elite athletes, we're committed to helping each member discover their strength and potential.</p>
+                </div>
+                <div class="story-image">
+                    GM
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <div class="container">
+            <h2>Meet Our Leadership Team</h2>
+            <div class="team-grid">
+                <div class="team-card animate-fade-in">
+                    <div class="team-image">SB</div>
+                    <h3>SHAMMAH BENUI</h3>
+                    <p class="team-role">Founder & CEO</p>
+                    <p class="team-bio">15+ years in fitness industry, certified personal trainer, and passionate about community wellness.</p>
+                </div>
+
+                <div class="team-card animate-fade-in">
+                    <div class="team-image">TG</div>
+                    <h3>TEKAM GARANTHIA</h3>
+                    <p class="team-role">Head Trainer</p>
+                    <p class="team-bio">CrossFit Level 2 certified, specializing in strength training and functional fitness.</p>
+                </div>
+
+                <div class="team-card animate-fade-in">
+                    <div class="team-image">NJ</div>
+                    <h3>NJOYA JUNIOR</h3>
+                    <p class="team-role">Wellness Director</p>
+                    <p class="team-bio">RYT-500 yoga instructor with expertise in mindfulness and holistic health practices.</p>
+                </div>
+
+                <div class="team-card animate-fade-in">
+                    <div class="team-image">AM</div>
+                    <h3>ABEN MCBRAIN</h3>
+                    <p class="team-role">Operations Manager</p>
+                    <p class="team-bio">Ensures smooth operations and exceptional member experiences every day.</p>
+                </div>
+                <div class="team-card animate-fade-in">
+                    <div class="team-image">MI</div>
+                    <h3>MANGET IVAN</h3>
+                    <p class="team-role">Finance Manager</p>
+                    <p class="team-bio">Incharge of all financial transactions.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="values-section">
+        <div class="container">
+            <h2>Our Core Values</h2>
+            <div class="values-grid">
+                <div class="value-card animate-fade-in">
+                    <div class="value-icon">❤️</div>
+                    <h3>Community First</h3>
+                    <p>We believe fitness is better together. Our supportive community is the heart of everything we do.</p>
+                </div>
+
+                <div class="value-card animate-fade-in">
+                    <div class="value-icon">🌟</div>
+                    <h3>Excellence</h3>
+                    <p>We strive for excellence in every aspect, from our facilities to our training programs and customer service.</p>
+                </div>
+
+                <div class="value-card animate-fade-in">
+                    <div class="value-icon">🤝</div>
+                    <h3>Integrity</h3>
+                    <p>We operate with honesty, transparency, and always put our members' best interests first.</p>
+                </div>
+
+                <div class="value-card animate-fade-in">
+                    <div class="value-icon">🚀</div>
+                    <h3>Innovation</h3>
+                    <p>We continuously evolve our offerings with the latest fitness trends and technologies.</p>
+                </div>
+
+                <div class="value-card animate-fade-in">
+                    <div class="value-icon">🌱</div>
+                    <h3>Sustainability</h3>
+                    <p>We're committed to environmentally responsible practices and long-term member success.</p>
+                </div>
+
+                <div class="value-card animate-fade-in">
+                    <div class="value-icon">🎯</div>
+                    <h3>Results-Driven</h3>
+                    <p>We're focused on helping you achieve measurable, sustainable results that transform your life.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section class="achievements-section">
+        <div class="container">
+            <h2>Our Achievements</h2>
+            <div class="achievements-grid">
+                <div class="achievement-card animate-fade-in">
+                    <div class="achievement-number">5,000+</div>
+                    <h3>Happy Members</h3>
+                    <p>Transforming lives since 2010</p>
+                </div>
+
+                <div class="achievement-card animate-fade-in">
+                    <div class="achievement-number">15</div>
+                    <h3>Years of Excellence</h3>
+                    <p>Consistent quality service</p>
+                </div>
+
+                <div class="achievement-card animate-fade-in">
+                    <div class="achievement-number">98%</div>
+                    <h3>Member Satisfaction</h3>
+                    <p>Rated excellent by our community</p>
+                </div>
+
+                <div class="achievement-card animate-fade-in">
+                    <div class="achievement-number">50+</div>
+                    <h3>Certified Trainers</h3>
+                    <p>Expert professionals on staff</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Join Our Fitness Family</h2>
+            <p>Ready to start your fitness journey with a community that cares about your success?</p>
+            <div class="cta-buttons">
+                <button class="cta-btn-primary" onclick="location.href='membership.html'">Become a Member</button>
+                <button class="cta-btn-secondary" onclick="location.href='contact.html'">Schedule a Tour</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Gym Master. All rights reserved.</p>
+            <p>123 Fitness Street, Health City, HC 12345 | info@gymmaster.com | (555) 123-4567</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu functionality
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Smooth scrolling
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.team-card, .value-card, .achievement-card').forEach(element => {
+            observer.observe(element);
+        });
+
+        // Close mobile menu when clicking links
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
