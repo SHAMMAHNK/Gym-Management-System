@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Booking Functionality</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #667eea;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .test-button:hover {
+            background: #764ba2;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #e8f5e8;
+            border: 1px solid #d4edda;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Test Booking Functionality</h1>
+        <p>Click the buttons below to test the bookClass function:</p>
+        
+        <button class="test-button" onclick="testHIIT()">Test HIIT Booking</button>
+        <button class="test-button" onclick="testYoga()">Test Yoga Booking</button>
+        <button class="test-button" onclick="testStrength()">Test Strength Booking</button>
+        
+        <div id="result" class="result">
+            Results will appear here...
+        </div>
+    </div>
+
+    <script>
+        // Book Class function (copied from class.html)
+        function bookClass(classId, className, classLevel, duration, calories, spots, price, trainer, imageUrl) {
+            // Store class details in localStorage
+            const classDetails = {
+                id: classId,
+                name: className,
+                level: classLevel,
+                duration: duration,
+                calories: calories,
+                spots: spots,
+                price: price,
+                trainer: trainer,
+                image: imageUrl
+            };
+            
+            localStorage.setItem('selectedClass', JSON.stringify(classDetails));
+            
+            // Show what would be stored
+            document.getElementById('result').innerHTML = `
+                <h3>Class Details Stored:</h3>
+                <pre>${JSON.stringify(classDetails, null, 2)}</pre>
+                <p>Would redirect to: book-class.html</p>
+            `;
+            
+            // In the actual implementation, this would redirect:
+            // window.location.href = 'book-class.html';
+        }
+
+        function testHIIT() {
+            bookClass('hiit', 'HIIT Training', 'All Levels', '45 minutes', '500+ cal', '20', '25', 'Sarah M.', 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400');
+        }
+
+        function testYoga() {
+            bookClass('yoga', 'Yoga Flow', 'Beginner', '60 minutes', '200 cal', '15', '20', 'Emma L.', 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400');
+        }
+
+        function testStrength() {
+            bookClass('strength', 'Strength Training', 'All Levels', '50 minutes', '350 cal', '20', '25', 'David W.', 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Gym Master</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo h2 {
+            color: white;
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #ffd700;
+        }
+
+        /* Payment Section */
+        .payment-section {
+            padding: 6rem 0 2rem;
+            min-height: 100vh;
+        }
+
+        .payment-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .order-summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .order-summary h2 {
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+        }
+
+        .plan-details {
+            background: rgba(255,255,255,0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .plan-features {
+            list-style: none;
+        }
+
+        .plan-features li {
+            padding: 0.3rem 0;
+            opacity: 0.9;
+        }
+
+        .total-amount {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding: 1rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 8px;
+        }
+
+        .payment-form {
+            padding: 2rem;
+        }
+
+        .payment-form h2 {
+            margin-bottom: 2rem;
+            color: #2c3e50;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group.error input,
+        .form-group.error select {
+            border-color: #ff6b6b;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        .card-input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .security-code {
+            position: relative;
+        }
+
+        .security-code .info-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .payment-method {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-method:hover,
+        .payment-method.active {
+            border-color: #667eea;
+            background-color: #f8f9ff;
+        }
+
+        .payment-method img {
+            height: 30px;
+            object-fit: contain;
+        }
+
+        .terms {
+            margin: 2rem 0;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .terms label {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .terms input[type="checkbox"] {
+            margin-top: 0.2rem;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Success Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+
+        .modal h2 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .modal p {
+            margin-bottom: 2rem;
+            color: #666;
+        }
+
+        .modal-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .payment-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .order-summary {
+                order: 2;
+            }
+            
+            .card-input-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-methods {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Security Tooltip */
+        .tooltip {
+            position: absolute;
+            background: #333;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            width: 200px;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-bottom: 0.5rem;
+            display: none;
+            z-index: 1000;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+
+        .security-code:hover .tooltip {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Gym Master</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="service.html">Services</a></li>
+                <li><a href="class.html">Classes</a></li>
+                <li><a href="schedule.html">Schedule</a></li>
+                <li><a href="membership.html">Membership</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Payment Section -->
+    <section class="payment-section">
+        <div class="container">
+            <div class="payment-container">
+                <!-- Order Summary -->
+                <div class="order-summary">
+                    <h2>Order Summary</h2>
+                    <div class="plan-details">
+                        <div class="plan-name" id="selected-plan">Basic Membership</div>
+                        <div class="plan-price" id="selected-price">$49.00</div>
+                        <ul class="plan-features" id="plan-features">
+                            <li>✓ Access to gym facilities</li>
+                            <li>✓ Free weights area</li>
+                            <li>✓ Cardio equipment</li>
+                            <li>✓ Locker room access</li>
+                            <li>✓ No contract required</li>
+                        </ul>
+                    </div>
+                    <div class="total-amount">
+                        Total: <span id="total-amount">$49.00</span>
+                    </div>
+                </div>
+
+                <!-- Payment Form -->
+                <div class="payment-form">
+                    <h2>Payment Details</h2>
+                    
+                    <!-- Payment Methods -->
+                    <div class="payment-methods">
+                        <div class="payment-method active" data-method="visa">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%231a1f71' d='M17.5 7h-11C5.1 7 4 8.1 4 9.5v5c0 1.4 1.1 2.5 2.5 2.5h11c1.4 0 2.5-1.1 2.5-2.5v-5C20 8.1 18.9 7 17.5 7z'/%3E%3Cpath fill='%23f79e1b' d='M12 12.5c0-.8.7-1.5 1.5-1.5s1.5.7 1.5 1.5-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5z'/%3E%3C/svg%3E" alt="Visa">
+                        </div>
+                        <div class="payment-method" data-method="mastercard">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23ff5f00' d='M15.5 7h-7C7.1 7 6 8.1 6 9.5v5c0 1.4 1.1 2.5 2.5 2.5h7c1.4 0 2.5-1.1 2.5-2.5v-5C18 8.1 16.9 7 15.5 7z'/%3E%3Cpath fill='%23eb001b' d='M12 12.5c0-.8.7-1.5 1.5-1.5s1.5.7 1.5 1.5-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5z'/%3E%3C/svg%3E" alt="Mastercard">
+                        </div>
+                        <div class="payment-method" data-method="amex">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%230066cc' d='M16.5 7h-9C6.1 7 5 8.1 5 9.5v5c0 1.4 1.1 2.5 2.5 2.5h9c1.4 0 2.5-1.1 2.5-2.5v-5C19 8.1 17.9 7 16.5 7z'/%3E%3Cpath fill='%23fff' d='M12 12.5c0-.8.7-1.5 1.5-1.5s1.5.7 1.5 1.5-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5z'/%3E%3C/svg%3E" alt="American Express">
+                        </div>
+                        <div class="payment-method" data-method="paypal">
+                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23003087' d='M17.5 7h-11C5.1 7 4 8.1 4 9.5v5c0 1.4 1.1 2.5 2.5 2.5h11c1.4 0 2.5-1.1 2.5-2.5v-5C20 8.1 18.9 7 17.5 7z'/%3E%3Cpath fill='%23009cde' d='M12 12.5c0-.8.7-1.5 1.5-1.5s1.5.7 1.5 1.5-.7 1.5-1.5 1.5-1.5-.7-1.5-1.5z'/%3E%3C/svg%3E" alt="PayPal">
+                        </div>
+                    </div>
+
+                    <form id="paymentForm">
+                        <!-- Card Details -->
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number</label>
+                            <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                            <div class="error-message">Please enter a valid card number</div>
+                        </div>
+
+                        <div class="card-input-group">
+                            <div class="form-group">
+                                <label for="expiryDate">Expiry Date</label>
+                                <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" maxlength="5" required>
+                                <div class="error-message">Please enter a valid expiry date</div>
+                            </div>
+
+                            <div class="form-group security-code">
+                                <label for="cvv">Security Code (CVV)</label>
+                                <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="4" required>
+                                <span class="info-icon">ℹ️</span>
+                                <div class="tooltip">3-digit code on the back of your card</div>
+                                <div class="error-message">Please enter a valid security code</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cardholderName">Cardholder Name</label>
+                            <input type="text" id="cardholderName" name="cardholderName" placeholder="John Doe" required>
+                            <div class="error-message">Please enter cardholder name</div>
+                        </div>
+
+                        <!-- Billing Address -->
+                        <div class="form-group">
+                            <label for="billingAddress">Billing Address</label>
+                            <input type="text" id="billingAddress" name="billingAddress" placeholder="123 Main St" required>
+                            <div class="error-message">Please enter billing address</div>
+                        </div>
+
+                        <div class="card-input-group">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city" placeholder="New York" required>
+                                <div class="error-message">Please enter city</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="postalCode">Postal Code</label>
+                                <input type="text" id="postalCode" name="postalCode" placeholder="10001" required>
+                                <div class="error-message">Please enter postal code</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <select id="country" name="country" required>
+                                <option value="">Select Country</option>
+                                <option value="US">United States</option>
+                                <option value="CA">Canada</option>
+                                <option value="UK">United Kingdom</option>
+                                <option value="AU">Australia</option>
+                                <option value="DE">Germany</option>
+                                <option value="FR">France</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <div class="error-message">Please select a country</div>
+                        </div>
+
+                        <!-- Terms and Conditions -->
+                        <div class="terms">
+                            <label>
+                                <input type="checkbox" id="terms" name="terms" required>
+                                <span>I agree to the <a href="#" style="color: #667eea; text-decoration: none;">Terms and Conditions</a> and authorize Gym Master to charge my card for the membership fee.</span>
+                            </label>
+                            <div class="error-message">You must agree to the terms and conditions</div>
+                        </div>
+
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            <span id="btnText">Pay Now - $49.00</span>
+                            <span id="btnLoading" class="loading" style="display: none;"></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content">
+            <div class="success-icon">✅</div>
+            <h2>Payment Successful!</h2>
+            <p>Thank you for your payment. Your membership has been activated successfully. Welcome to Gym Master!</p>
+            <p><strong>Transaction ID:</strong> <span id="transactionId">GM-123456789</span></p>
+            <button class="modal-btn" onclick="closeModal()">Continue to Dashboard</button>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const plan = urlParams.get('plan') || 'basic';
+        const price = urlParams.get('price') || '49';
+
+        // Plan details mapping
+        const planDetails = {
+            basic: {
+                name: 'Basic Membership',
+                price: 49,
+                features: [
+                    'Access to gym facilities',
+                    'Free weights area',
+                    'Cardio equipment',
+                    'Locker room access',
+                    'No contract required'
+                ]
+            },
+            premium: {
+                name: 'Premium Membership',
+                price: 79,
+                features: [
+                    'All Basic features',
+                    'Group fitness classes',
+                    'Pool & sauna access',
+                    'Personal training discount',
+                    'Guest passes (2/month)',
+                    '24/7 access'
+                ]
+            },
+            elite: {
+                name: 'Elite Membership',
+                price: 129,
+                features: [
+                    'All Premium features',
+                    'Unlimited personal training',
+                    'Nutrition counseling',
+                    'Massage therapy sessions',
+                    'Priority booking',
+                    'Exclusive events',
+                    'Family membership option'
+                ]
+            }
+        };
+
+        // Initialize page with selected plan
+        function initializePage() {
+            const selectedPlan = planDetails[plan];
+            if (selectedPlan) {
+                document.getElementById('selected-plan').textContent = selectedPlan.name;
+                document.getElementById('selected-price').textContent = `$${selectedPlan.price}.00`;
+                document.getElementById('total-amount').textContent = `$${selectedPlan.price}.00`;
+                document.getElementById('btnText').textContent = `Pay Now - $${selectedPlan.price}.00`;
+
+                const featuresList = document.getElementById('plan-features');
+                featuresList.innerHTML = '';
+                selectedPlan.features.forEach(feature => {
+                    const li = document.createElement('li');
+                    li.textContent = `✓ ${feature}`;
+                    featuresList.appendChild(li);
+                });
+            }
+        }
+
+        // Payment method selection
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', function() {
+                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Card number formatting
+        document.getElementById('cardNumber').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                value = value.match(/.{1,4}/g).join(' ');
+            }
+            e.target.value = value;
+        });
+
+        // Expiry date formatting
+        document.getElementById('expiryDate').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+            e.target.value = value;
+        });
+
+        // Form validation and submission
+        document.getElementById('paymentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (validateForm()) {
+                const submitBtn = document.getElementById('submitBtn');
+                const btnText = document.getElementById('btnText');
+                const btnLoading = document.getElementById('btnLoading');
+                
+                submitBtn.disabled = true;
+                btnText.style.display = 'none';
+                btnLoading.style.display = 'inline-block';
+
+                // Simulate payment processing
+                setTimeout(() => {
+                    showSuccessModal();
+                    submitBtn.disabled = false;
+                    btnText.style.display = 'inline';
+                    btnLoading.style.display = 'none';
+                }, 2000);
+            }
+        });
+
+        // Form validation
+        function validateForm() {
+            let isValid = true;
+            const form = document.getElementById('paymentForm');
+            
+            // Validate card number
+            const cardNumber = document.getElementById('cardNumber');
+            if (!cardNumber.value.trim() || cardNumber.value.replace(/\s/g, '').length < 16) {
+                cardNumber.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                cardNumber.parentElement.classList.remove('error');
+            }
+
+            // Validate expiry date
+            const expiryDate = document.getElementById('expiryDate');
+            const expiryRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
+            if (!expiryDate.value.trim() || !expiryRegex.test(expiryDate.value)) {
+                expiryDate.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                expiryDate.parentElement.classList.remove('error');
+            }
+
+            // Validate CVV
+            const cvv = document.getElementById('cvv');
+            if (!cvv.value.trim() || cvv.value.length < 3) {
+                cvv.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                cvv.parentElement.classList.remove('error');
+            }
+
+            // Validate cardholder name
+            const cardholderName = document.getElementById('cardholderName');
+            if (!cardholderName.value.trim()) {
+                cardholderName.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                cardholderName.parentElement.classList.remove('error');
+            }
+
+            // Validate billing address
+            const billingAddress = document.getElementById('billingAddress');
+            if (!billingAddress.value.trim()) {
+                billingAddress.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                billingAddress.parentElement.classList.remove('error');
+            }
+
+            // Validate city
+            const city = document.getElementById('city');
+            if (!city.value.trim()) {
+                city.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                city.parentElement.classList.remove('error');
+            }
+
+            // Validate postal code
+            const postalCode = document.getElementById('postalCode');
+            if (!postalCode.value.trim()) {
+                postalCode.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                postalCode.parentElement.classList.remove('error');
+            }
+
+            // Validate country
+            const country = document.getElementById('country');
+            if (!country.value) {
+                country.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                country.parentElement.classList.remove('error');
+            }
+
+            // Validate terms
+            const terms = document.getElementById('terms');
+            if (!terms.checked) {
+                terms.parentElement.parentElement.classList.add('error');
+                isValid = false;
+            } else {
+                terms.parentElement.parentElement.classList.remove('error');
+            }
+
+            return isValid;
+        }
+
+        // Show success modal
+        function showSuccessModal() {
+            const modal = document.getElementById('successModal');
+            const transactionId = 'GM-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            document.getElementById('transactionId').textContent = transactionId;
+            modal.style.display = 'flex';
+        }
+
+        // Close modal
+        function closeModal() {
+            const modal = document.getElementById('successModal');
+            modal.style.display = 'none';
+            // Redirect to dashboard or home page
+            window.location.href = 'index.html';
+        }
+
+        // Real-time validation
+        document.querySelectorAll('#paymentForm input, #paymentForm select').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value.trim()) {
+                    this.parentElement.classList.remove('error');
+                }
+                
+                // Special validation for terms checkbox
+                if (this.type === 'checkbox') {
+                    if (this.checked) {
+                        this.parentElement.parentElement.classList.remove('error');
+                    }
+                }
+            });
+        });
+
+        // Initialize page on load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePage();
+        });
+    </script>
+</body>
+</html>

@@ -173,6 +173,14 @@
         .btn-primary:hover {
             background: #222;
         }
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
 
         /* Map Section */
         .map-section {
@@ -211,13 +219,14 @@
         <nav>
             <div class="logo">Gym Master</div>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="service.html">Services</a></li>
                 <li><a href="class.html">Classes</a></li>
+                <li><a href="schedule.html">Schedule</a></li>
                 <li><a href="membership.html">Membership</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="#" id="loginBtn">Login</a></li>
+                <li><a href="login.html">Login</a></li>
             </ul>
         </nav>
     </header>
@@ -327,7 +336,7 @@
             <h2>Find Us</h2>
             <div class="map-container">
                 <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.215676717857!2d-73.98784368459477!3d40.75889527932683!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes%20Square!5e0!3m2!1sen!2sus!4v1645564756836!5m2!1sen!2sus" 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8162935.899999619!2d8.619678734375!3d5.691920500000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x105d0b5d00000001%3A0x1f9a6c3d8b0e8b0!2sCameroon!5e0!3m2!1sen!2sus!4v1645564756836!5m2!1sen!2sus" 
                     width="100%" 
                     height="400" 
                     style="border:0;" 
@@ -337,7 +346,13 @@
             </div>
         </div>
     </section>
-
+    <!--footer-->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Gym Master. All rights reserved.</p>
+            <p>123 Fitness Street, Health City, HC 12345 | info@gymmaster.com | (555) 123-4567</p>
+        </div>
+    </footer>
     <script>
         // Simple form handling
         document.getElementById('contactForm').addEventListener('submit', function(e) {

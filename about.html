@@ -24,62 +24,49 @@
             padding: 0 20px;
         }
 
-        /* Navigation */
-        .navbar {
+        /* Header */
+        header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             padding: 1rem 0;
             position: fixed;
-            top: 0;
             width: 100%;
+            top: 0;
             z-index: 1000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
-        .nav-logo h2 {
-            color: white;
-            font-weight: 700;
+        .logo {
             font-size: 1.8rem;
+            font-weight: bold;
         }
 
-        .nav-menu {
+        .nav-links {
             display: flex;
             list-style: none;
-            gap: 2rem;
         }
 
-        .nav-menu a {
+        .nav-links li {
+            margin-left: 2rem;
+        }
+
+        .nav-links a {
             color: white;
             text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
+            transition: color 0.3s;
         }
 
-        .nav-menu a:hover,
-        .nav-menu a.active {
+        .nav-links a:hover {
             color: #ffd700;
-        }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-        }
-
-        .hamburger span {
-            width: 25px;
-            height: 3px;
-            background: white;
-            margin: 3px 0;
-            transition: 0.3s;
         }
 
         /* Hero Section */
@@ -339,7 +326,7 @@
         }
 
         .cta-btn-primary {
-            background: #ffd700;
+            background: #667eea;
             color: #333;
             border: none;
             padding: 15px 40px;
@@ -381,26 +368,10 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .hamburger {
-                display: flex;
-            }
-
-            .nav-menu {
+            .nav-links {
                 display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                flex-direction: column;
-                padding: 1rem;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             }
-
-            .nav-menu.active {
-                display: flex;
-            }
-
+            
             .hero-content h1 {
                 font-size: 2.5rem;
             }
@@ -443,27 +414,22 @@
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <h2>Gym Master</h2>
-            </div>
-            <ul class="nav-menu">
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">Gym Master</div>
+            <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="class.html">Classes</a></li>
                 <li><a href="service.html">Services</a></li>
+                <li><a href="class.html">Classes</a></li>
+                <li><a href="schedule.html">Schedule</a></li>
                 <li><a href="membership.html">Membership</a></li>
-                <li><a href="about.html" class="active">About</a></li>
+                <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
             </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
     <!-- Hero Section -->
     <section class="about-hero">
@@ -616,7 +582,7 @@
             <p>Ready to start your fitness journey with a community that cares about your success?</p>
             <div class="cta-buttons">
                 <button class="cta-btn-primary" onclick="location.href='membership.html'">Become a Member</button>
-                <button class="cta-btn-secondary" onclick="location.href='contact.html'">Schedule a Tour</button>
+                <button class="cta-btn-secondary" onclick="location.href='book-class.html'">Book Now</button>
             </div>
         </div>
     </section>
@@ -630,15 +596,6 @@
     </footer>
 
     <script>
-        // Mobile menu functionality
-        const hamburger = document.querySelector('.hamburger');
-        const navMenu = document.querySelector('.nav-menu');
-
-        hamburger.addEventListener('click', () => {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
-
         // Smooth scrolling
         function scrollToSection(sectionId) {
             const section = document.getElementById(sectionId);
@@ -664,14 +621,6 @@
         // Observe elements for animation
         document.querySelectorAll('.team-card, .value-card, .achievement-card').forEach(element => {
             observer.observe(element);
-        });
-
-        // Close mobile menu when clicking links
-        document.querySelectorAll('.nav-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                hamburger.classList.remove('active');
-            });
         });
     </script>
 </body>

@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Class - Gym Master</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo h2 {
+            color: white;
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #ffd700;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .booking-hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23667eea" width="1200" height="600"/><path fill="%23764ba2" d="M0 300L50 325L100 300L150 275L200 300L250 325L300 300L350 275L400 300L450 325L500 300L550 275L600 300L650 325L700 300L750 275L800 300L850 325L900 300L950 275L1000 300L1050 325L1100 300L1150 275L1200 300V600H0V300Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 60px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Main Content */
+        .booking-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 3rem;
+            padding: 4rem 0;
+            background: white;
+        }
+
+        /* Class Details */
+        .class-details {
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .class-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .class-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .class-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .class-info h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .class-level {
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .class-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .class-meta {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .meta-icon {
+            font-size: 1.5rem;
+            color: #667eea;
+        }
+
+        .meta-content h4 {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 0.2rem;
+        }
+
+        .meta-content p {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        /* Booking Form */
+        .booking-form-section {
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 100px;
+        }
+
+        .booking-form-section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group.error input,
+        .form-group.error select,
+        .form-group.error textarea {
+            border-color: #ff6b6b;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Authentication Section */
+        .auth-section {
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .auth-section h4 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .auth-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #667eea;
+            border-radius: 25px;
+            background: white;
+            color: #667eea;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .auth-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .auth-btn.login {
+            background: #667eea;
+            color: white;
+        }
+
+        .auth-btn.login:hover {
+            background: #764ba2;
+            border-color: #764ba2;
+        }
+
+        /* User Info */
+        .user-info {
+            padding: 1.5rem;
+            background: #e8f5e8;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .user-info h4 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-info p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .logout-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        /* Plan Validation */
+        .plan-validation {
+            padding: 1.5rem;
+            background: #fff3cd;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .plan-validation.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .plan-validation.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        /* Confirmation Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .modal-icon {
+            font-size: 4rem;
+            color: #28a745;
+            margin-bottom: 1rem;
+        }
+
+        .modal h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .modal p {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .booking-details {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .booking-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .booking-detail:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn.primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .modal-btn.secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .booking-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .booking-form-section {
+                position: static;
+            }
+            
+            .class-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .class-meta {
+                grid-template-columns: 1fr;
+            }
+            
+            .auth-buttons {
+                flex-direction: column;
+            }
+            
+            .modal-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Gym Master</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="service.html">Services</a></li>
+                <li><a href="class.html">Classes</a></li>
+                <li><a href="schedule.html">Schedule</a></li>
+                <li><a href="membership.html">Membership</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="booking-hero">
+        <div class="hero-content">
+            <h1>Book Your Class</h1>
+            <p>Reserve your spot in our premium fitness classes and start your journey to better health</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="booking-container">
+            <!-- Class Details -->
+            <div class="class-details">
+                <div class="class-header">
+                    <div class="class-image">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400" alt="HIIT Training" id="classImage">
+                    </div>
+                    <div class="class-info">
+                        <h2 id="className">HIIT Training</h2>
+                        <span class="class-level" id="classLevel">All Levels</span>
+                    </div>
+                </div>
+
+                <div class="class-description" id="classDescription">
+                    High-intensity interval training designed to maximize calorie burn and build endurance. 
+                    This class combines short bursts of intense exercise with brief recovery periods to push 
+                    your limits and achieve maximum results.
+                </div>
+
+                <div class="class-meta">
+                    <div class="meta-item">
+                        <div class="meta-icon">⏰</div>
+                        <div class="meta-content">
+                            <h4>Duration</h4>
+                            <p id="classDuration">45 minutes</p>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-icon">🔥</div>
+                        <div class="meta-content">
+                            <h4>Calories Burned</h4>
+                            <p id="classCalories">500+ cal</p>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-icon">👥</div>
+                        <div class="meta-content">
+                            <h4>Spots Available</h4>
+                            <p id="classSpots">20 spots</p>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-icon">💰</div>
+                        <div class="meta-content">
+                            <h4>Price</h4>
+                            <p id="classPrice">$25/class</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="trainer-info">
+                    <h3>About the Trainer</h3>
+                    <div class="meta-item">
+                        <div class="meta-icon">👤</div>
+                        <div class="meta-content">
+                            <h4>Trainer</h4>
+                            <p id="classTrainer">Sarah M.</p>
+                        </div>
+                    </div>
+                    <p class="trainer-bio">Certified personal trainer with 8+ years of experience in high-intensity training and fitness coaching.</p>
+                </div>
+            </div>
+
+            <!-- Booking Form -->
+            <div class="booking-form-section">
+                <!-- Authentication Section -->
+                <div class="auth-section" id="authSection">
+                    <h4>Please sign in to book a class</h4>
+                    <div class="auth-buttons">
+                        <button class="auth-btn login" onclick="showLogin()">Login</button>
+                        <button class="auth-btn" onclick="showSignup()">Sign Up</button>
+                    </div>
+                </div>
+
+                <!-- User Info -->
+                <div class="user-info" id="userInfo" style="display: none;">
+                    <h4>Welcome back!</h4>
+                    <p id="userEmail">user@example.com</p>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
+
+                <!-- Plan Validation -->
+                <div class="plan-validation" id="planValidation" style="display: none;">
+                    <p id="validationMessage">Checking your membership plan...</p>
+                </div>
+
+                <!-- Booking Form -->
+                <form id="bookingForm" style="display: none;">
+                    <h3>Book Your Spot</h3>
+                    
+                    <!-- Personal Information Section -->
+                    <div class="form-section">
+                        <h4>Personal Information</h4>
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="+1 (555) 123-4567">
+                        </div>
+                    </div>
+
+                    <!-- Booking Details Section -->
+                    <div class="form-section">
+                        <h4>Booking Details</h4>
+                        <div class="form-group">
+                            <label for="serviceType">Service/Class Type *</label>
+                            <select id="serviceType" name="serviceType" required>
+                                <option value="">Select service type</option>
+                                <option value="hiit">HIIT Training</option>
+                                <option value="yoga">Yoga</option>
+                                <option value="pilates">Pilates</option>
+                                <option value="strength">Strength Training</option>
+                                <option value="cardio">Cardio</option>
+                                <option value="dance">Dance Fitness</option>
+                                <option value="boxing">Boxing</option>
+                                <option value="swimming">Swimming</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="trainerPreference">Trainer Preference</label>
+                            <select id="trainerPreference" name="trainerPreference">
+                                <option value="">No preference</option>
+                                <option value="sarah">Sarah M. (HIIT Specialist)</option>
+                                <option value="mike">Mike T. (Strength Coach)</option>
+                                <option value="lisa">Lisa K. (Yoga Instructor)</option>
+                                <option value="david">David R. (Boxing Coach)</option>
+                                <option value="emma">Emma W. (Dance Instructor)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="duration">Duration *</label>
+                            <select id="duration" name="duration" required>
+                                <option value="">Select duration</option>
+                                <option value="30">30 minutes</option>
+                                <option value="45">45 minutes</option>
+                                <option value="60">60 minutes</option>
+                                <option value="90">90 minutes</option>
+                                <option value="120">120 minutes</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bookingDate">Select Date *</label>
+                            <input type="date" id="bookingDate" name="bookingDate" required min="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bookingTime">Select Time *</label>
+                            <select id="bookingTime" name="bookingTime" required>
+                                <option value="">Select a time</option>
+                                <option value="06:00">6:00 AM</option>
+                                <option value="07:00">7:00 AM</option>
+                                <option value="08:00">8:00 AM</option>
+                                <option value="09:00">9:00 AM</option>
+                                <option value="10:00">10:00 AM</option>
+                                <option value="11:00">11:00 AM</option>
+                                <option value="12:00">12:00 PM</option>
+                                <option value="13:00">1:00 PM</option>
+                                <option value="14:00">2:00 PM</option>
+                                <option value="15:00">3:00 PM</option>
+                                <option value="16:00">4:00 PM</option>
+                                <option value="17:00">5:00 PM</option>
+                                <option value="18:00">6:00 PM</option>
+                                <option value="19:00">7:00 PM</option>
+                                <option value="20:00">8:00 PM</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="participants">Number of Participants *</label>
+                            <select id="participants" name="participants" required>
+                                <option value="1">1 person</option>
+                                <option value="2">2 people</option>
+                                <option value="3">3 people</option>
+                                <option value="4">4 people</option>
+                                <option value="5">5 people</option>
+                                <option value="6">6 people</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Payment Options Section -->
+                    <div class="form-section">
+                        <h4>Payment Options</h4>
+                        <div class="form-group">
+                            <label>Payment Method *</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="paymentMethod" value="pay_now" required>
+                                    <span class="radio-custom"></span>
+                                    Pay Now (Credit Card)
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="paymentMethod" value="pay_later">
+                                    <span class="radio-custom"></span>
+                                    Pay Later (Invoice)
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="paymentMethod" value="pay_at_gym">
+                                    <span class="radio-custom"></span>
+                                    Pay at Gym
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="referralGroup">
+                            <label for="referralCode">Referral Code</label>
+                            <input type="text" id="referralCode" name="referralCode" placeholder="Enter referral code (if any)">
+                        </div>
+                    </div>
+
+                    <!-- Terms and Conditions -->
+                    <div class="form-section">
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="termsAgreement" name="termsAgreement" required>
+                                <span class="checkbox-custom"></span>
+                                I agree to the <a href="#" onclick="showTerms()">Terms and Conditions</a> *
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="specialRequests">Special Requests</label>
+                        <textarea id="specialRequests" name="specialRequests" rows="3" placeholder="Any special requirements, medical conditions, or notes for the trainer..."></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">Confirm Booking</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content">
+            <div class="modal-icon">✅</div>
+            <h3>Booking Confirmed!</h3>
+            <p>Your class has been successfully booked. We've sent a confirmation email with all the details.</p>
+            
+            <div class="booking-details">
+                <div class="booking-detail">
+                    <span>Class:</span>
+                    <span id="confirmClassName">HIIT Training</span>
+                </div>
+                <div class="booking-detail">
+                    <span>Date & Time:</span>
+                    <span id="confirmDateTime">Loading...</span>
+                </div>
+                <div class="booking-detail">
+                    <span>Participants:</span>
+                    <span id="confirmParticipants">1</span>
+                </div>
+                <div class="booking-detail">
+                    <span>Total Amount:</span>
+                    <span id="confirmAmount">$25.00</span>
+                </div>
+                <div class="booking-detail">
+                    <span>Booking ID:</span>
+                    <span id="confirmBookingId">GM-123456</span>
+                </div>
+            </div>
+
+            <div class="modal-buttons">
+                <button class="modal-btn primary" onclick="closeModal()">View My Bookings</button>
+                <button class="modal-btn secondary" onclick="closeModal()">Book Another Class</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Class data from URL parameters or default
+        const urlParams = new URLSearchParams(window.location.search);
+        const classData = {
+            id: urlParams.get('classId') || 'hiit',
+            name: urlParams.get('className') || 'HIIT Training',
+            level: urlParams.get('level') || 'All Levels',
+            duration: urlParams.get('duration') || '45 minutes',
+            calories: urlParams.get('calories') || '500+ cal',
+            spots: urlParams.get('spots') || '20',
+            price: urlParams.get('price') || '25',
+            trainer: urlParams.get('trainer') || 'Sarah M.',
+            image: urlParams.get('image') || 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400'
+        };
+
+        // User authentication state
+        let currentUser = null;
+        let userMembership = null;
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePage();
+            setupEventListeners();
+            setMinBookingDate();
+            checkAuthentication();
+        });
+
+        function initializePage() {
+            // Populate class details
+            document.getElementById('className').textContent = classData.name;
+            document.getElementById('classLevel').textContent = classData.level;
+            document.getElementById('classDuration').textContent = classData.duration;
+            document.getElementById('classCalories').textContent = classData.calories;
+            document.getElementById('classSpots').textContent = `${classData.spots} spots`;
+            document.getElementById('classPrice').textContent = `$${classData.price}/class`;
+            document.getElementById('classTrainer').textContent = classData.trainer;
+            document.getElementById('classImage').src = classData.image;
+        }
+
+        function setupEventListeners() {
+            // Form submission
+            document.getElementById('bookingForm').addEventListener('submit', handleBookingSubmit);
+            
+            // Real-time validation
+            document.querySelectorAll('#bookingForm input, #bookingForm select').forEach(input => {
+                input.addEventListener('input', function() {
+                    this.parentElement.classList.remove('error');
+                });
+            });
+        }
+
+        function setMinBookingDate() {
+            const today = new Date();
+            const minDate = new Date(today.setDate(today.getDate() + 1)); // Tomorrow
+            const minDateStr = minDate.toISOString().split('T')[0];
+            document.getElementById('bookingDate').min = minDateStr;
+        }
+
+        function checkAuthentication() {
+            // Check if user is logged in (simulated)
+            const savedUser = localStorage.getItem('gymUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showUserInfo();
+                checkMembershipPlan();
+            }
+        }
+
+        function showLogin() {
+            // Simulate login process
+            const email = prompt('Enter your email:');
+            const password = prompt('Enter your password:');
+            
+            if (email && password) {
+                // Simulate successful login
+                currentUser = {
+                    email: email,
+                    name: email.split('@')[0],
+                    membership: 'premium' // Simulated membership type
+                };
+                
+                localStorage.setItem('gymUser', JSON.stringify(currentUser));
+                showUserInfo();
+                checkMembershipPlan();
+            }
+        }
+
+        function showSignup() {
+            alert('Redirecting to signup page...');
+            // In a real app, this would redirect to signup page
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('gymUser');
+            document.getElementById('authSection').style.display = 'block';
+            document.getElementById('userInfo').style.display = 'none';
+            document.getElementById('planValidation').style.display = 'none';
+            document.getElementById('bookingForm').style.display = 'none';
+        }
+
+        function showUserInfo() {
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('userInfo').style.display = 'block';
+            document.getElementById('userEmail').textContent = currentUser.email;
+        }
+
+        function checkMembershipPlan() {
+            const validationEl = document.getElementById('planValidation');
+            validationEl.style.display = 'block';
+            
+            // Simulate membership check
+            setTimeout(() => {
+                if (currentUser.membership === 'premium' || currentUser.membership === 'elite') {
+                    validationEl.className = 'plan-validation success';
+                    validationEl.innerHTML = `
+                        <p>✓ Your ${currentUser.membership} membership includes class access!</p>
+                        <p>Classes are included in your membership plan.</p>
+                    `;
+                    document.getElementById('bookingForm').style.display = 'block';
+                } else if (currentUser.membership === 'basic') {
+                    validationEl.className = 'plan-validation error';
+                    validationEl.innerHTML = `
+                        <p>⚠️ Your basic membership doesn't include class access</p>
+                        <p>Please upgrade to Premium or Elite membership to book classes.</p>
+                        <button class="auth-btn" onclick="upgradeMembership()">Upgrade Membership</button>
+                    `;
+                } else {
+                    validationEl.className = 'plan-validation error';
+                    validationEl.innerHTML = `
+                        <p>❌ No valid membership found</p>
+                        <p>Please purchase a membership to book classes.</p>
+                        <button class="auth-btn" onclick="purchaseMembership()">View Memberships</button>
+                    `;
+                }
+            }, 1000);
+        }
+
+        function upgradeMembership() {
+            alert('Redirecting to membership upgrade page...');
+        }
+
+        function purchaseMembership() {
+            alert('Redirecting to membership page...');
+        }
+
+        function handleBookingSubmit(e) {
+            e.preventDefault();
+            
+            // Validate form
+            if (!validateForm()) {
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Processing...';
+            submitBtn.disabled = true;
+
+            // Simulate booking process
+            setTimeout(() => {
+                const formData = {
+                    fullName: document.getElementById('fullName').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    serviceType: document.getElementById('serviceType').value,
+                    trainerPreference: document.getElementById('trainerPreference').value,
+                    duration: document.getElementById('duration').value,
+                    date: document.getElementById('bookingDate').value,
+                    time: document.getElementById('bookingTime').value,
+                    participants: document.getElementById('participants').value,
+                    paymentMethod: document.querySelector('input[name="paymentMethod"]:checked').value,
+                    referralCode: document.getElementById('referralCode').value,
+                    termsAgreement: document.getElementById('termsAgreement').checked,
+                    requests: document.getElementById('specialRequests').value
+                };
+
+                // Generate booking confirmation
+                showConfirmation(formData);
+                
+                // Reset button
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        }
+
+        function validateForm() {
+            let isValid = true;
+            const form = document.getElementById('bookingForm');
+            
+            // Check required fields
+            const requiredFields = form.querySelectorAll('[required]');
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.parentElement.classList.add('error');
+                    isValid = false;
+                }
+            });
+
+            // Check date is in future
+            const bookingDate = new Date(document.getElementById('bookingDate').value);
+            const today = new Date();
+            if (bookingDate <= today) {
+                document.getElementById('bookingDate').parentElement.classList.add('error');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function showConfirmation(formData) {
+            // Populate confirmation details
+            document.getElementById('confirmClassName').textContent = classData.name;
+            
+            const date = new Date(formData.date);
+            const time = formData.time;
+            document.getElementById('confirmDateTime').textContent = 
+                `${date.toLocaleDateString()} at ${formatTime(time)}`;
+            
+            document.getElementById('confirmParticipants').textContent = formData.participants;
+            
+            const totalAmount = parseInt(classData.price) * parseInt(formData.participants);
+            document.getElementById('confirmAmount').textContent = `$${totalAmount}.00`;
+
+            // Add new confirmation details
+            const modalContent = document.querySelector('.modal-content');
+            // Remove old additional details if any
+            const oldAdditional = document.getElementById('additionalBookingDetails');
+            if (oldAdditional) {
+                oldAdditional.remove();
+            }
+
+            const additionalDetails = document.createElement('div');
+            additionalDetails.id = 'additionalBookingDetails';
+            additionalDetails.style.textAlign = 'left';
+            additionalDetails.style.marginTop = '1rem';
+
+            additionalDetails.innerHTML = `
+                <p><strong>Full Name:</strong> ${formData.fullName}</p>
+                <p><strong>Email:</strong> ${formData.email}</p>
+                <p><strong>Phone:</strong> ${formData.phone}</p>
+                <p><strong>Service/Class Type:</strong> ${formData.serviceType}</p>
+                <p><strong>Trainer Preference:</strong> ${formData.trainerPreference || 'No preference'}</p>
+                <p><strong>Duration:</strong> ${formData.duration} minutes</p>
+                <p><strong>Payment Method:</strong> ${formatPaymentMethod(formData.paymentMethod)}</p>
+                <p><strong>Referral Code:</strong> ${formData.referralCode || 'N/A'}</p>
+                <p><strong>Terms Accepted:</strong> ${formData.termsAgreement ? 'Yes' : 'No'}</p>
+            `;
+
+            modalContent.appendChild(additionalDetails);
+            
+            // Generate random booking ID
+            const bookingId = 'GM-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            document.getElementById('confirmBookingId').textContent = bookingId;
+
+            // Show modal
+            document.getElementById('confirmationModal').classList.add('active');
+        }
+
+        function formatPaymentMethod(method) {
+            switch(method) {
+                case 'pay_now': return 'Pay Now (Credit Card)';
+                case 'pay_later': return 'Pay Later (Invoice)';
+                case 'pay_at_gym': return 'Pay at Gym';
+                default: return 'Unknown';
+            }
+        }
+
+        function formatTime(time) {
+            const [hours, minutes] = time.split(':');
+            const period = hours >= 12 ? 'PM' : 'AM';
+            const formattedHours = hours % 12 || 12;
+            return `${formattedHours}:${minutes} ${period}`;
+        }
+
+        function closeModal() {
+            document.getElementById('confirmationModal').classList.remove('active');
+            // Reset form
+            document.getElementById('bookingForm').reset();
+        }
+
+        // Utility function to show notifications
+        function showNotification(message, type = 'info') {
+            // Implementation for showing notifications
+            alert(`${type.toUpperCase()}: ${message}`);
+        }
+    </script>
+</body>
+</html>

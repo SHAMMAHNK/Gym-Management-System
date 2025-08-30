@@ -524,10 +524,14 @@ body {
             </div>
             <ul class="nav-menu">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="classes.html" class="active">Classes</a></li>
-                <li><a href="#schedule">Schedule</a></li>
-                <li><a href="#trainers">Trainers</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="service.html">Services</a></li>
+                <li><a href="class.html" class="active">Classes</a></li>
+                <li><a href="schedule.html">Schedule</a></li>
+                <li><a href="membership.html">Membership</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html" style="background: #ffd700; color: #333; padding: 0.5rem 1rem; border-radius: 25px; font-weight: bold;">Sign Up</a></li>
             </ul>
             <div class="hamburger">
                 <span></span>
@@ -581,7 +585,7 @@ body {
                             <span><i class="fas fa-users"></i> 20 spots</span>
                         </div>
                         <div class="class-price">$25/class</div>
-                        <button class="book-btn">Book Class</button>
+                        <button class="book-btn" onclick="bookClass('hiit', 'HIIT Training', 'All Levels', '45 minutes', '500+ cal', '20', '25', 'Sarah M.', 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400')">Book Class</button>
                     </div>
                 </div>
 
@@ -602,7 +606,7 @@ body {
                             <span><i class="fas fa-users"></i> 15 spots</span>
                         </div>
                         <div class="class-price">$20/class</div>
-                        <button class="book-btn">Book Class</button>
+                        <button class="book-btn" onclick="bookClass('yoga', 'Yoga Flow', 'Beginner', '60 minutes', '200 cal', '15', '20', 'Emma L.', 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400')">Book Class</button>
                     </div>
                 </div>
 
@@ -623,7 +627,7 @@ body {
                             <span><i class="fas fa-users"></i> 12 spots</span>
                         </div>
                         <div class="class-price">$30/class</div>
-                        <button class="book-btn">Book Class</button>
+                        <button class="book-btn" onclick="bookClass('crossfit', 'CrossFit', 'Intermediate', '60 minutes', '600 cal', '12', '30', 'Mike R.', 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400')">Book Class</button>
                     </div>
                 </div>
 
@@ -644,7 +648,7 @@ body {
                             <span><i class="fas fa-users"></i> 25 spots</span>
                         </div>
                         <div class="class-price">$22/class</div>
-                        <button class="book-btn">Book Class</button>
+                        <button class="book-btn" onclick="bookClass('spin', 'Spin Class', 'All Levels', '45 minutes', '450 cal', '25', '22', 'Lisa K.', 'https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=400')">Book Class</button>
                     </div>
                 </div>
 
@@ -665,7 +669,7 @@ body {
                             <span><i class="fas fa-users"></i> 18 spots</span>
                         </div>
                         <div class="class-price">$23/class</div>
-                        <button class="book-btn">Book Class</button>
+                        <button class="book-btn" onclick="bookClass('pilates', 'Pilates Core', 'All Levels', '50 minutes', '250 cal', '18', '23', 'Jessica T.', 'https://images.unsplash.com/photo-1518611012118-696极速赛车开奖直播历史记录072aa579a?w=400')">Book Class</button>
                     </div>
                 </div>
 
@@ -686,7 +690,7 @@ body {
                             <span><i class="fas fa-users"></i> 15 spots</span>
                         </div>
                         <div class="class-price">$28/class</div>
-                        <button class="book-btn">Book Class</button>
+                        <button class="book-btn" onclick="bookClass('boxing', 'Boxing Fitness', 'All Levels', '45 minutes', '500 cal', '15', '28', 'John D.', 'https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=400')">Book Class</button>
                     </div>
                 </div>
 
@@ -707,7 +711,7 @@ body {
                             <span><i class="fas fa-users"></i> 30 spots</span>
                         </div>
                         <div class="class-price">$20/class</div>
-                        <button class="book-btn">Book Class</button>
+                        <button class="book-btn" onclick="bookClass('zumba', 'Zumba Dance', 'All Levels', '60 minutes', '400 cal', '30', '20', 'Maria S.', 'https://images.unsplash.com/photo-1599058917765-a780eda07a3e?w=400')">Book Class</button>
                     </div>
                 </div>
 
@@ -728,7 +732,7 @@ body {
                             <span><i class="fas fa-users"></i> 20 spots</span>
                         </div>
                         <div class="class-price">$25/class</div>
-                        <button class="book-btn">Book Class</button>
+                        <button class="book-btn" onclick="bookClass('strength', 'Strength Training', 'All Levels', '50 minutes', '350 cal', '20', '25', 'David W.', 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400')">Book Class</button>
                     </div>
                 </div>
             </div>
@@ -781,7 +785,7 @@ body {
     <!-- Footer -->
    <footer>
         <div class="container">
-            <p>&copy; 2024 Gym Master. All rights reserved.</p>
+            <p>&copy; 2025 Gym Master. All rights reserved.</p>
             <p>123 Fitness Street, Health City, HC 12345 | info@gymmaster.com | (555) 123-4567</p>
         </div>
     </footer>
@@ -979,6 +983,27 @@ window.PowerFitApp = {
     showLoading,
     hideLoading
 };
+
+// Book Class function
+function bookClass(classId, className, classLevel, duration, calories, spots, price, trainer, imageUrl) {
+    // Store class details in localStorage
+    const classDetails = {
+        id: classId,
+        name: className,
+        level: classLevel,
+        duration: duration,
+        calories: calories,
+        spots: spots,
+        price: price,
+        trainer: trainer,
+        image: imageUrl
+    };
+    
+    localStorage.setItem('selectedClass', JSON.stringify(classDetails));
+    
+    // Redirect to booking page
+    window.location.href = 'book-class.html';
+}
 
 
                         </script>

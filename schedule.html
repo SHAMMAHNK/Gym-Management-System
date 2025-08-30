@@ -197,13 +197,13 @@
         }
 
         .time-slot.booked {
-            background: #e3f2fd;
-            border: 2px solid #2196f3;
+            background: #e8f5e8;
+            border: 2px solid #28a745;
         }
 
         .time-slot.available {
-            background: #f3e5f5;
-            border: 2px solid #9c27b0;
+            background: #f0e6ff;
+            border: 2px solid #667eea;
         }
 
         .time-label {
@@ -332,34 +332,206 @@
             color: #2c3e50;
         }
 
-        /* Notifications */
+        /* Professional Notifications */
         .notifications {
             position: fixed;
             top: 100px;
             right: 20px;
             z-index: 1000;
+            max-width: 400px;
         }
 
         .notification {
             background: white;
-            padding: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 1.25rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             margin-bottom: 1rem;
-            border-left: 4px solid #667eea;
-            animation: slideIn 0.3s ease;
+            border-left: 6px solid #667eea;
+            animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .notification.hide {
+            transform: translateX(100%);
+            opacity: 0;
         }
 
         .notification.success {
-            border-left-color: #28a745;
+            border-left-color: #10b981;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
         }
 
         .notification.error {
-            border-left-color: #dc3545;
+            border-left-color: #ef4444;
+            background: linear-gradient(135deg, #fef2f2 0%, #ffffff 100%);
         }
 
         .notification.warning {
-            border-left-color: #ffc107;
+            border-left-color: #f59e0b;
+            background: linear-gradient(135deg, #fffbeb 0%, #ffffff 100%);
+        }
+
+        .notification.info {
+            border-left-color: #3b82f6;
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+        }
+
+        .notification-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #6b7280;
+            padding: 0.25rem;
+            border-radius: 4px;
+            transition: color 0.2s ease;
+        }
+
+        .notification-close:hover {
+            color: #374151;
+            background: #f3f4f6;
+        }
+
+        .notification-content {
+            color: #4b5563;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+
+        .notification-time {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            text-align: right;
+        }
+
+        .notification-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            animation: progressBar 3s linear forwards;
+        }
+
+        .notification.success .notification-progress {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+
+        .notification.error .notification-progress {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+        }
+
+        .notification.warning .notification-progress {
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+        }
+
+        .notification-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes progressBar {
+            from {
+                width: 100%;
+            }
+            to {
+                width: 0%;
+            }
+        }
+
+        /* Notification Types */
+        .notification-reminder {
+            border-left-color: #8b5cf6;
+            background: linear-gradient(135deg, #f5f3ff 0%, #ffffff 100%);
+        }
+
+        .notification-reminder .notification-progress {
+            background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+        }
+
+        .notification-digest {
+            border-left-color: #06b6d4;
+            background: linear-gradient(135deg, #ecfeff 0%, #ffffff 100%);
+        }
+
+        .notification-digest .notification-progress {
+            background: linear-gradient(90deg, #06b6d4, #0891b2);
+        }
+
+        /* Mobile notifications */
+        @media (max-width: 768px) {
+            .notifications {
+                top: 80px;
+                right: 10px;
+                left: 10px;
+                max-width: none;
+            }
+
+            .notification {
+                padding: 1rem;
+                border-radius: 10px;
+            }
+        }
+
+        /* No Member or Trainer Styles */
+        .no-bookings {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .no-bookings h4 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
         }
 
         @keyframes slideIn {
@@ -423,11 +595,13 @@
             </div>
             <ul class="nav-menu">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="classes.html">Classes</a></li>
+                <li><a href="service.html">Services</a></li>
+                <li><a href="class.html">Classes</a></li>
                 <li><a href="schedule.html" class="active">Schedule</a></li>
                 <li><a href="membership.html">Membership</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">login</a></li>
             </ul>
             <div class="hamburger">
                 <span></span>
@@ -450,8 +624,6 @@
         <div class="container">
             <div class="tabs-container">
                 <button class="tab-btn active" data-view="class">Class Schedule</button>
-                <button class="tab-btn" data-view="member">My Schedule</button>
-                <button class="tab-btn" data-view="trainer">Trainer Schedule</button>
             </div>
         </div>
     </section>
@@ -464,22 +636,6 @@
                 <h2>Weekly Class Schedule</h2>
                 <div class="calendar-grid" id="class-calendar">
                     <!-- Calendar will be populated by JavaScript -->
-                </div>
-            </div>
-
-            <!-- Member Schedule View -->
-            <div class="schedule-view" id="member-view">
-                <h2>My Bookings</h2>
-                <div class="calendar-grid" id="member-calendar">
-                    <!-- Member bookings will be populated by JavaScript -->
-                </div>
-            </div>
-
-            <!-- Trainer Schedule View -->
-            <div class="schedule-view" id="trainer-view">
-                <h2>Trainer Schedule</h2>
-                <div class="calendar-grid" id="trainer-calendar">
-                    <!-- Trainer schedule will be populated by JavaScript -->
                 </div>
             </div>
         </div>
@@ -518,6 +674,13 @@
 
     <!-- Notifications Container -->
     <div class="notifications" id="notifications"></div>
+    <!-- Footer -->
+   <footer>
+        <div class="container">
+            <p>&copy; 2025 Gym Master. All rights reserved.</p>
+            <p>123 Fitness Street, Health City, HC 12345 | info@gymmaster.com | (555) 123-4567</p>
+        </div>
+    </footer>
 
     <script>
         // Sample Data
@@ -615,6 +778,7 @@
                 this.renderCalendar();
                 this.checkUpcomingClasses();
                 this.requestNotificationPermission();
+                this.scheduleDailyDigest();
             }
 
             setupEventListeners() {
@@ -689,95 +853,53 @@
                     html += `<div class="day-header">${day}</div>`;
                 });
 
-                if (this.currentView === 'member') {
-                    // Member view - show bookings with full details
-                    for (let hour = 6; hour <= 20; hour++) {
-                        const time = `${hour}:00`;
-                        
-                        // Time label
-                        html += `<div class="time-header">${time}</div>`;
-                        
-                        // Day slots
-                        days.forEach(day => {
-                            const userBooking = this.getUserBookingForTime(day, time);
-                            if (userBooking) {
-                                const classInfo = sampleData.classes.find(c => c.name === userBooking.className);
-                                const trainerInfo = sampleData.trainers.find(t => t.name === userBooking.classTime.split(' at ')[2]);
-                                
-                                html += `
-                                    <div class="time-slot booked">
-                                        <div class="time-label">${time}</div>
-                                        <div class="class-info">
-                                            <div class="class-name">${userBooking.className}</div>
-                                            <div class="trainer-name">${userBooking.classTime.split(' at ')[2]}</div>
-                                            <div class="booking-details">
-                                                <div><strong>Booked by:</strong> ${userBooking.memberName}</div>
-                                                <div><strong>Email:</strong> ${userBooking.memberEmail}</div>
-                                                <div><strong>Booked on:</strong> ${new Date(userBooking.bookedAt).toLocaleDateString()}</div>
-                                                ${classInfo ? `
-                                                <div><strong>Duration:</strong> ${classInfo.duration} min</div>
-                                                <div><strong>Level:</strong> ${classInfo.level}</div>
-                                                ` : ''}
-                                            </div>
-                                        </div>
+                // Class view
+                for (let hour = 6; hour <= 20; hour++) {
+                    const time = `${hour}:00`;
+                    
+                    // Time label
+                    html += `<div class="time-header">${time}</div>`;
+                    
+                    // Day slots
+                    days.forEach(day => {
+                        const classData = this.getClassForTime(day, time);
+                        if (classData) {
+                            const classInfo = sampleData.classes.find(c => c.id === classData.classId);
+                            const spotsLeft = classInfo.capacity - classInfo.bookings;
+                            
+                            html += `
+                                <div class="time-slot available" 
+                                     data-class="${classInfo.name}"
+                                     data-time="${time}"
+                                     data-trainer="${classData.trainer}"
+                                     data-day="${day}">
+                                    <div class="time-label">${time}</div>
+                                    <div class="class-info">
+                                        <div class="class-name">${classInfo.name}</div>
+                                        <div class="trainer-name">${classData.trainer}</div>
+                                        <div class="spots-available">${spotsLeft} spots left</div>
                                     </div>
-                                `;
-                            } else {
-                                html += `<div class="time-slot"></div>`;
-                            }
-                        });
-                    }
-                } else {
-                    // Class and Trainer views
-                    for (let hour = 6; hour <= 20; hour++) {
-                        const time = `${hour}:00`;
-                        
-                        // Time label
-                        html += `<div class="time-header">${time}</div>`;
-                        
-                        // Day slots
-                        days.forEach(day => {
-                            const classData = this.getClassForTime(day, time);
-                            if (classData) {
-                                const classInfo = sampleData.classes.find(c => c.id === classData.classId);
-                                const spotsLeft = classInfo.capacity - classInfo.bookings;
-                                
-                                html += `
-                                    <div class="time-slot available" 
-                                         data-class="${classInfo.name}"
-                                         data-time="${time}"
-                                         data-trainer="${classData.trainer}"
-                                         data-day="${day}">
-                                        <div class="time-label">${time}</div>
-                                        <div class="class-info">
-                                            <div class="class-name">${classInfo.name}</div>
-                                            <div class="trainer-name">${classData.trainer}</div>
-                                            <div class="spots-available">${spotsLeft} spots left</div>
-                                        </div>
-                                    </div>
-                                `;
-                            } else {
-                                html += `<div class="time-slot"></div>`;
-                            }
-                        });
-                    }
+                                </div>
+                            `;
+                        } else {
+                            html += `<div class="time-slot"></div>`;
+                        }
+                    });
                 }
 
                 calendarEl.innerHTML = html;
 
-                // Add click listeners to available slots (only for class view)
-                if (this.currentView === 'class') {
-                    calendarEl.querySelectorAll('.time-slot.available').forEach(slot => {
-                        slot.addEventListener('click', () => {
-                            this.openBookingModal(
-                                slot.dataset.class,
-                                slot.dataset.time,
-                                slot.dataset.trainer,
-                                slot.dataset.day
-                            );
-                        });
+                // Add click listeners to available slots
+                calendarEl.querySelectorAll('.time-slot.available').forEach(slot => {
+                    slot.addEventListener('click', () => {
+                        this.openBookingModal(
+                            slot.dataset.class,
+                            slot.dataset.time,
+                            slot.dataset.trainer,
+                            slot.dataset.day
+                        );
                     });
-                }
+                });
             }
 
             getUserBookingForTime(day, time) {
@@ -880,17 +1002,69 @@
                 this.scheduleReminder(booking);
             }
 
-            showNotification(message, type = 'info') {
+            showNotification(message, type = 'info', title = null, persistent = false) {
                 const notifications = document.getElementById('notifications');
                 const notification = document.createElement('div');
+                
+                // Determine notification title based on type
+                const notificationTitle = title || this.getNotificationTitle(type);
+                
                 notification.className = `notification ${type}`;
-                notification.textContent = message;
+                notification.innerHTML = `
+                    <div class="notification-header">
+                        <div class="notification-title">
+                            <span class="notification-icon">${this.getNotificationIcon(type)}</span>
+                            ${notificationTitle}
+                        </div>
+                        <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+                    </div>
+                    <div class="notification-content">${message}</div>
+                    <div class="notification-time">${new Date().toLocaleTimeString()}</div>
+                    ${!persistent ? '<div class="notification-progress"></div>' : ''}
+                `;
                 
                 notifications.appendChild(notification);
                 
+                // Trigger animation
                 setTimeout(() => {
-                    notification.remove();
-                }, 3000);
+                    notification.classList.add('show');
+                }, 10);
+                
+                // Auto-dismiss if not persistent
+                if (!persistent) {
+                    setTimeout(() => {
+                        notification.classList.add('hide');
+                        setTimeout(() => {
+                            if (notification.parentNode) {
+                                notification.remove();
+                            }
+                        }, 400);
+                    }, 5000);
+                }
+            }
+
+            getNotificationTitle(type) {
+                const titles = {
+                    'success': 'Success',
+                    'error': 'Error',
+                    'warning': 'Warning',
+                    'info': 'Information',
+                    'reminder': 'Reminder',
+                    'digest': 'Daily Digest'
+                };
+                return titles[type] || 'Notification';
+            }
+
+            getNotificationIcon(type) {
+                const icons = {
+                    'success': '✓',
+                    'error': '⚠',
+                    'warning': '⚠',
+                    'info': 'ℹ',
+                    'reminder': '⏰',
+                    'digest': '📋'
+                };
+                return icons[type] || '📢';
             }
 
             scheduleReminder(booking) {
@@ -938,10 +1112,11 @@
                     });
                 }
                 
-                // In-app notification
+                // In-app notification with reminder type
                 this.showNotification(
-                    `Reminder: ${booking.className} starts in ${timeMessage}`,
-                    'warning'
+                    `Your ${booking.className} class starts in ${timeMessage}`,
+                    'reminder',
+                    'Class Reminder'
                 );
                 
                 // Optional: Play sound notification
@@ -1076,7 +1251,7 @@
                         });
                     }
                     
-                    this.showNotification(message, 'info');
+                    this.showNotification(message, 'digest', 'Daily Class Digest');
                 }
             }
         }

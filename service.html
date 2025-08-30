@@ -112,7 +112,7 @@
         }
 
         .cta-button {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            background: linear-gradient(135deg, #667eea, #667eea);
             color: white;
             border: none;
             padding: 15px 40px;
@@ -463,7 +463,7 @@
         }
 
         .cta-btn-primary {
-            background: #ffd700;
+            background: #667eea;
             color: #333;
             border: none;
             padding: 15px 40px;
@@ -576,10 +576,13 @@
             </div>
             <ul class="nav-menu">
                 <li><a href="index.html">Home</a></li>
+                  <li><a href="service.html" class="active">Services</a></li>
                 <li><a href="class.html">Classes</a></li>
-                <li><a href="service.html" class="active">Services</a></li>
+                 <li><a href="schedule.html">Schedule</a></li>
                 <li><a href="membership.html">Membership</a></li>
+                <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
             </ul>
             <div class="hamburger">
                 <span></span>
@@ -615,7 +618,7 @@
                         <li>Flexible scheduling</li>
                         <li>24/7 support</li>
                     </ul>
-                    <button class="service-btn" onclick="bookService('personal-training')">Book Session</button>
+                    <button class="service-btn" onclick="location.href='payment.html'">Choose a Service</button>
                 </div>
 
                 <!-- Group Classes -->
@@ -630,7 +633,7 @@
                         <li>Dance fitness programs</li>
                         <li>Community atmosphere</li>
                     </ul>
-                    <button class="service-btn" onclick="bookService('group-classes')">View Schedule</button>
+                    <button class="service-btn" onclick="location.href='payment.html'">Choose a Service</button>
                 </div>
 
                 <!-- Nutrition -->
@@ -645,7 +648,7 @@
                         <li>Weekly check-ins</li>
                         <li>Recipe database access</li>
                     </ul>
-                    <button class="service-btn" onclick="bookService('nutrition')">Get Started</button>
+                    <button class="service-btn" onclick="location.href='payment.html'">Choose a Service</button>
                 </div>
 
                 <!-- Specialized Programs -->
@@ -660,7 +663,7 @@
                         <li>Senior fitness</li>
                         <li>Rehabilitation</li>
                     </ul>
-                    <button class="service-btn" onclick="bookService('specialized')">Learn More</button>
+                    <button class="service-btn" onclick="location.href='payment.html'">Choose a Service</button>
                 </div>
 
                 <!-- Facility Amenities -->
@@ -675,7 +678,7 @@
                         <li>Sauna & steam room</li>
                         <li>Locker rooms</li>
                     </ul>
-                    <button class="service-btn" onclick="bookService('facilities')">Tour Facilities</button>
+                    <button class="service-btn" onclick="location.href= 'payment.html'">Choose a Service</button>
                 </div>
 
                 <!-- Corporate Wellness -->
@@ -690,7 +693,7 @@
                         <li>Group discounts</li>
                         <li>On-site training</li>
                     </ul>
-                    <button class="service-btn" onclick="bookService('corporate')">Request Info</button>
+                    <button class="service-btn" onclick="location.href='payment.html'">Choose a Service</button>
                 </div>
             </div>
         </div>
@@ -712,12 +715,11 @@
                         <li>24/7 Gym Access</li>
                         <li>Progress Tracking</li>
                     </ul>
-                    <button class="service-btn" onclick="selectPackage('starter')">Choose Plan</button>
+                    <button class="service-btn" onclick="location.href='payment.html'">Upgrade Membership</button>
                 </div>
 
                 <!-- Premium Package -->
                 <div class="pricing-card featured">
-                    <div class="badge">Most Popular</div>
                     <h3>Premium</h3>
                     <div class="price">$199<span>/month</span></div>
                     <ul>
@@ -728,7 +730,7 @@
                         <li>Weekly Check-ins</li>
                         <li>Recovery Sessions</li>
                     </ul>
-                    <button class="service-btn" onclick="selectPackage('premium')">Choose Plan</button>
+                    <button class="service-btn" onclick="location.href='payment.html'">Upgrade Membership</button>
                 </div>
 
                 <!-- Elite Package -->
@@ -744,7 +746,7 @@
                         <li>Recovery Therapy</li>
                         <li>Priority Booking</li>
                     </ul>
-                    <button class="service-btn" onclick="selectPackage('elite')">Choose Plan</button>
+                    <button class="service-btn" onclick="location.href='payment.html'">Upgrade Membership</button>
                 </div>
             </div>
         </div>
@@ -760,7 +762,7 @@
                     <h3>Sarah Johnson</h3>
                     <p class="trainer-specialty">HIIT & Strength Training</p>
                     <p class="trainer-bio">Certified personal trainer with 8+ years experience specializing in high-intensity interval training and strength development.</p>
-                    <button class="service-btn" onclick="bookTrainer('sarah')">Book with Sarah</button>
+                    <button class="service-btn" onclick="location.href='payment.html'">Upgrade Membership</button>
                 </div>
 
                 <div class="trainer-card animate-fade-in">
@@ -768,7 +770,7 @@
                     <h3>Mike Rodriguez</h3>
                     <p class="trainer-specialty">CrossFit & Functional Fitness</p>
                     <p class="trainer-bio">CrossFit Level 2 trainer with expertise in functional movement patterns and competition preparation.</p>
-                    <button class="service-btn" onclick="bookTrainer('mike')">Book with Mike</button>
+                    <button class="service-btn" onclick="location.href='payment.html'">Upgrade Membership</button>
                 </div>
 
                 <div class="trainer-card animate-fade-in">
@@ -776,7 +778,7 @@
                     <h3>Emma Lee</h3>
                     <p class="trainer-specialty">Yoga & Mindfulness</p>
                     <p class="trainer-bio">RYT-500 certified yoga instructor focusing on vinyasa flow, meditation, and mind-body connection.</p>
-                    <button class="service-btn" onclick="bookTrainer('emma')">Book with Emma</button>
+                    <button class="service-btn" onclick="location.href='payment.html'">Upgrade Membership</button>
                 </div>
 
                 <div class="trainer-card animate-fade-in">
@@ -784,7 +786,7 @@
                     <h3>David Chen</h3>
                     <p class="trainer-specialty">Boxing & Combat Sports</p>
                     <p class="trainer-bio">Professional boxing coach with background in MMA and self-defense training.</p>
-                    <button class="service-btn" onclick="bookTrainer('david')">Book with David</button>
+                    <button class="service-btn" onclick="location.href='payment.html'">Upgrade Membership</button>
                 </div>
             </div>
         </div>
@@ -840,7 +842,7 @@
             <h2>Ready to Start Your Journey?</h2>
             <p>Join hundreds of satisfied members who have transformed their lives with our expert services and support.</p>
             <div class="cta-buttons">
-                <button class="cta-btn-primary" onclick="location.href='membership.html'">Join Now</button>
+                <button class="cta-btn-primary" onclick="location.href='payment.html'">Upgrade Membership</button>
                 <button class="cta-btn-secondary" onclick="location.href='contact.html'">Schedule Consultation</button>
             </div>
         </div>
@@ -872,18 +874,6 @@
             }
         }
 
-        // Service booking functions
-        function bookService(serviceType) {
-            alert(`Booking ${serviceType.replace('-', ' ')} service...\nYou will be redirected to our booking system.`);
-        }
-
-        function selectPackage(packageType) {
-            alert(`Selected ${packageType} package!\nYou will be redirected to complete your purchase.`);
-        }
-
-        function bookTrainer(trainerName) {
-            alert(`Booking session with ${trainerName}...\nPlease select your preferred date and time.`);
-        }
 
         // Intersection Observer for animations
         const observerOptions = {

