@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule - Gym Master</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo h2 {
+            color: white;
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #ffd700;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .schedule-hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23667eea" width="1200" height="600"/><path fill="%23764ba2" d="M0 300L50 325L100 300L150 275L200 300L250 325L300 300L350 275L400 300L450 325L500 300L550 275L600 300L650 325L700 300L750 275L800 300L850 325L900 300L950 275L1000 300L1050 325L1100 300L1150 275L1200 300V600H0V300Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 80px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        /* Schedule Tabs */
+        .schedule-tabs {
+            background: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .tab-btn.active,
+        .tab-btn:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Schedule Views */
+        .schedule-views {
+            padding: 3rem 0;
+        }
+
+        .schedule-view {
+            display: none;
+        }
+
+        .schedule-view.active {
+            display: block;
+        }
+
+        /* Calendar Grid */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: 80px repeat(7, 1fr);
+            gap: 1px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .time-header {
+            background: #f8f9fa;
+            padding: 1rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .day-header {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .time-slot {
+            background: white;
+            padding: 0.5rem;
+            min-height: 80px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .time-slot:hover {
+            background: #f1f3f5;
+        }
+
+        .time-slot.booked {
+            background: #e8f5e8;
+            border: 2px solid #28a745;
+        }
+
+        .time-slot.available {
+            background: #f0e6ff;
+            border: 2px solid #667eea;
+        }
+
+        .time-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .class-info {
+            font-size: 0.9rem;
+        }
+
+        .class-name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .trainer-name {
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .spots-available {
+            color: #28a745;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Booking Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .modal h2 {
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Booking Details */
+        .booking-details {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #e9ecef;
+        }
+
+        .booking-details div {
+            margin-bottom: 0.3rem;
+        }
+
+        .booking-details strong {
+            color: #2c3e50;
+        }
+
+        /* Professional Notifications */
+        .notifications {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 1000;
+            max-width: 400px;
+        }
+
+        .notification {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            margin-bottom: 1rem;
+            border-left: 6px solid #667eea;
+            animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .notification.hide {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        .notification.success {
+            border-left-color: #10b981;
+            background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+        }
+
+        .notification.error {
+            border-left-color: #ef4444;
+            background: linear-gradient(135deg, #fef2f2 0%, #ffffff 100%);
+        }
+
+        .notification.warning {
+            border-left-color: #f59e0b;
+            background: linear-gradient(135deg, #fffbeb 0%, #ffffff 100%);
+        }
+
+        .notification.info {
+            border-left-color: #3b82f6;
+            background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+        }
+
+        .notification-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #6b7280;
+            padding: 0.25rem;
+            border-radius: 4px;
+            transition: color 0.2s ease;
+        }
+
+        .notification-close:hover {
+            color: #374151;
+            background: #f3f4f6;
+        }
+
+        .notification-content {
+            color: #4b5563;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+
+        .notification-time {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            text-align: right;
+        }
+
+        .notification-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            animation: progressBar 3s linear forwards;
+        }
+
+        .notification.success .notification-progress {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+
+        .notification.error .notification-progress {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+        }
+
+        .notification.warning .notification-progress {
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+        }
+
+        .notification-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes progressBar {
+            from {
+                width: 100%;
+            }
+            to {
+                width: 0%;
+            }
+        }
+
+        /* Notification Types */
+        .notification-reminder {
+            border-left-color: #8b5cf6;
+            background: linear-gradient(135deg, #f5f3ff 0%, #ffffff 100%);
+        }
+
+        .notification-reminder .notification-progress {
+            background: linear-gradient(90deg, #8b5cf6, #7c3aed);
+        }
+
+        .notification-digest {
+            border-left-color: #06b6d4;
+            background: linear-gradient(135deg, #ecfeff 0%, #ffffff 100%);
+        }
+
+        .notification-digest .notification-progress {
+            background: linear-gradient(90deg, #06b6d4, #0891b2);
+        }
+
+        /* Mobile notifications */
+        @media (max-width: 768px) {
+            .notifications {
+                top: 80px;
+                right: 10px;
+                left: 10px;
+                max-width: none;
+            }
+
+            .notification {
+                padding: 1rem;
+                border-radius: 10px;
+            }
+        }
+
+        /* No Member or Trainer Styles */
+        .no-bookings {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .no-bookings h4 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .calendar-grid {
+                grid-template-columns: 60px repeat(7, 1fr);
+                font-size: 0.8rem;
+            }
+
+            .time-slot {
+                min-height: 60px;
+                padding: 0.3rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .calendar-grid {
+                grid-template-columns: 50px repeat(7, 1fr);
+                font-size: 0.7rem;
+            }
+
+            .time-slot {
+                min-height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Gym Master</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="service.html">Services</a></li>
+                <li><a href="class.html">Classes</a></li>
+                <li><a href="schedule.html" class="active">Schedule</a></li>
+                <li><a href="membership.html">Membership</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">login</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="schedule-hero">
+        <div class="hero-content">
+            <h1>Class Schedule</h1>
+            <p>Book your favorite classes and manage your fitness journey</p>
+        </div>
+    </section>
+
+    <!-- Schedule Tabs -->
+    <section class="schedule-tabs">
+        <div class="container">
+            <div class="tabs-container">
+                <button class="tab-btn active" data-view="class">Class Schedule</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Views -->
+    <section class="schedule-views">
+        <div class="container">
+            <!-- Class Schedule View -->
+            <div class="schedule-view active" id="class-view">
+                <h2>Weekly Class Schedule</h2>
+                <div class="calendar-grid" id="class-calendar">
+                    <!-- Calendar will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Book Class</h2>
+            <form id="bookingForm">
+                <div class="form-group">
+                    <label for="className">Class Name</label>
+                    <input type="text" id="className" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="classTime">Time</label>
+                    <input type="text" id="classTime" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="trainerName">Trainer</label>
+                    <input type="text" id="trainerName" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="memberName">Your Name</label>
+                    <input type="text" id="memberName" required placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="memberEmail">Email</label>
+                    <input type="email" id="memberEmail" required placeholder="Enter your email">
+                </div>
+                <button type="submit" class="submit-btn">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notifications Container -->
+    <div class="notifications" id="notifications"></div>
+    <!-- Footer -->
+   <footer>
+        <div class="container">
+            <p>&copy; 2025 Gym Master. All rights reserved.</p>
+            <p>123 Fitness Street, Health City, HC 12345 | info@gymmaster.com | (555) 123-4567</p>
+        </div>
+    </footer>
+
+    <script>
+        // Sample Data
+        const sampleData = {
+            classes: [
+                {
+                    id: 1,
+                    name: "HIIT Training",
+                    trainer: "Sarah M.",
+                    duration: 45,
+                    category: "cardio",
+                    level: "All Levels",
+                    capacity: 20,
+                    bookings: 15
+                },
+                {
+                    id: 2,
+                    name: "Yoga Flow",
+                    trainer: "Emma L.",
+                    duration: 60,
+                    category: "mind",
+                    level: "Beginner",
+                    capacity: 15,
+                    bookings: 7
+                },
+                {
+                    id: 3,
+                    name: "CrossFit",
+                    trainer: "Mike R.",
+                    duration: 60,
+                    category: "strength",
+                    level: "Intermediate",
+                    capacity: 12,
+                    bookings: 9
+                },
+                {
+                    id: 4,
+                    name: "Spin Class",
+                    trainer: "Lisa K.",
+                    duration: 45,
+                    category: "cardio",
+                    level: "All Levels",
+                    capacity: 25,
+                    bookings: 15
+                }
+            ],
+            schedule: [
+                // Monday
+                { classId: 1, day: "Monday", time: "6:00", trainer: "Sarah M." },
+                { classId: 2, day: "Monday", time: "8:00", trainer: "Emma L." },
+                { classId: 3, day: "Monday", time: "12:00", trainer: "Mike R." },
+                { classId: 4, day: "Monday", time: "18:00", trainer: "Lisa K." },
+                // Tuesday
+                { classId: 2, day: "Tuesday", time: "7:00", trainer: "Emma L." },
+                { classId: 1, day: "Tuesday", time: "12:00", trainer: "Sarah M." },
+                { classId: 4, day: "Tuesday", time: "17:00", trainer: "Lisa K." },
+                // Wednesday
+                { classId: 3, day: "Wednesday", time: "6:00", trainer: "Mike R." },
+                { classId: 2, day: "Wednesday", time: "9:00", trainer: "Emma L." },
+                { classId: 1, day: "Wednesday", time: "18:00", trainer: "Sarah M." },
+                // Thursday
+                { classId: 4, day: "Thursday", time: "7:00", trainer: "Lisa K." },
+                { classId: 3, day: "Thursday", time: "12:00", trainer: "Mike R." },
+                { classId: 2, day: "Thursday", time: "17:00", trainer: "Emma L." },
+                // Friday
+                { classId: 1, day: "Friday", time: "6:00", trainer: "Sarah M." },
+                { classId: 4, day: "Friday", time: "9:00", trainer: "Lisa K." },
+                { classId: 3, day: "Friday", time: "18:00", trainer: "Mike R." },
+                // Saturday
+                { classId: 2, day: "Saturday", time: "8:00", trainer: "Emma L." },
+                { classId: 1, day: "Saturday", time: "10:00", trainer: "Sarah M." },
+                { classId: 4, day: "Saturday", time: "14:00", trainer: "Lisa K." },
+                // Sunday
+                { classId: 3, day: "Sunday", time: "9:00", trainer: "Mike R." },
+                { classId: 2, day: "Sunday", time: "11:00", trainer: "Emma L." }
+            ],
+            trainers: [
+                { id: 1, name: "Sarah M.", specialty: "HIIT & Strength", experience: "5 years" },
+                { id: 2, name: "Emma L.", specialty: "Yoga & Pilates", experience: "7 years" },
+                { id: 3, name: "Mike R.", specialty: "CrossFit & Functional", experience: "8 years" },
+                { id: 4, name: "Lisa K.", specialty: "Cardio & Spin", experience: "6 years" }
+            ]
+        };
+
+        // Main Application
+        class ScheduleApp {
+            constructor() {
+                this.currentView = 'class';
+                this.userBookings = JSON.parse(localStorage.getItem('userBookings')) || [];
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.renderCalendar();
+                this.checkUpcomingClasses();
+                this.requestNotificationPermission();
+                this.scheduleDailyDigest();
+            }
+
+            setupEventListeners() {
+                // Tab switching
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.switchView(e.target.dataset.view);
+                    });
+                });
+
+                // Modal close
+                document.querySelector('.close').addEventListener('click', () => {
+                    this.closeModal();
+                });
+
+                // Booking form submission
+                document.getElementById('bookingForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleBooking();
+                });
+
+                // Close modal on outside click
+                window.addEventListener('click', (e) => {
+                    if (e.target === document.getElementById('bookingModal')) {
+                        this.closeModal();
+                    }
+                });
+
+                // Mobile menu
+                const hamburger = document.querySelector('.hamburger');
+                const navMenu = document.querySelector('.nav-menu');
+                
+                if (hamburger && navMenu) {
+                    hamburger.addEventListener('click', () => {
+                        hamburger.classList.toggle('active');
+                        navMenu.classList.toggle('active');
+                    });
+                }
+            }
+
+            switchView(view) {
+                this.currentView = view;
+                
+                // Update active tab
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.view === view) {
+                        btn.classList.add('active');
+                    }
+                });
+
+                // Show correct view
+                document.querySelectorAll('.schedule-view').forEach(viewEl => {
+                    viewEl.classList.remove('active');
+                });
+                document.getElementById(`${view}-view`).classList.add('active');
+
+                // Render appropriate calendar
+                this.renderCalendar();
+            }
+
+            renderCalendar() {
+                const calendarEl = document.getElementById(`${this.currentView}-calendar`);
+                if (!calendarEl) return;
+
+                let html = '';
+                
+                // Time headers
+                html += '<div class="time-header"></div>';
+                const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                days.forEach(day => {
+                    html += `<div class="day-header">${day}</div>`;
+                });
+
+                // Class view
+                for (let hour = 6; hour <= 20; hour++) {
+                    const time = `${hour}:00`;
+                    
+                    // Time label
+                    html += `<div class="time-header">${time}</div>`;
+                    
+                    // Day slots
+                    days.forEach(day => {
+                        const classData = this.getClassForTime(day, time);
+                        if (classData) {
+                            const classInfo = sampleData.classes.find(c => c.id === classData.classId);
+                            const spotsLeft = classInfo.capacity - classInfo.bookings;
+                            
+                            html += `
+                                <div class="time-slot available" 
+                                     data-class="${classInfo.name}"
+                                     data-time="${time}"
+                                     data-trainer="${classData.trainer}"
+                                     data-day="${day}">
+                                    <div class="time-label">${time}</div>
+                                    <div class="class-info">
+                                        <div class="class-name">${classInfo.name}</div>
+                                        <div class="trainer-name">${classData.trainer}</div>
+                                        <div class="spots-available">${spotsLeft} spots left</div>
+                                    </div>
+                                </div>
+                            `;
+                        } else {
+                            html += `<div class="time-slot"></div>`;
+                        }
+                    });
+                }
+
+                calendarEl.innerHTML = html;
+
+                // Add click listeners to available slots
+                calendarEl.querySelectorAll('.time-slot.available').forEach(slot => {
+                    slot.addEventListener('click', () => {
+                        this.openBookingModal(
+                            slot.dataset.class,
+                            slot.dataset.time,
+                            slot.dataset.trainer,
+                            slot.dataset.day
+                        );
+                    });
+                });
+            }
+
+            getUserBookingForTime(day, time) {
+                return this.userBookings.find(booking => {
+                    const [bookingDay, bookingTime] = booking.classTime.split(' at ');
+                    return bookingDay === day && bookingTime === time;
+                });
+            }
+
+            getClassForTime(day, time) {
+                return sampleData.schedule.find(s => 
+                    s.day === day && s.time === time
+                );
+            }
+
+            openBookingModal(className, classTime, trainerName, day) {
+                const modal = document.getElementById('bookingModal');
+                const classInfo = sampleData.classes.find(c => c.name === className);
+                const trainerInfo = sampleData.trainers.find(t => t.name === trainerName);
+                
+                // Update modal with complete information
+                document.getElementById('className').value = className;
+                document.getElementById('classTime').value = `${day} at ${classTime}`;
+                document.getElementById('trainerName').value = trainerName;
+                
+                // Add additional information display
+                const modalContent = modal.querySelector('.modal-content');
+                
+                // Remove existing info if any
+                const existingInfo = modal.querySelector('.class-details-info');
+                if (existingInfo) {
+                    existingInfo.remove();
+                }
+                
+                const classDetails = document.createElement('div');
+                classDetails.className = 'class-details-info';
+                classDetails.innerHTML = `
+                    <div class="form-group">
+                        <label>Class Details</label>
+                        <div class="class-details-grid">
+                            <div class="detail-item">
+                                <strong>Duration:</strong> ${classInfo.duration} minutes
+                            </div>
+                            <div class="detail-item">
+                                <strong>Level:</strong> ${classInfo.level}
+                            </div>
+                            <div class="detail-item">
+                                <strong>Category:</strong> ${classInfo.category}
+                            </div>
+                            <div class="detail-item">
+                                <strong>Spots Available:</strong> ${classInfo.capacity - classInfo.bookings}
+                            </div>
+                            ${trainerInfo ? `
+                            <div class="detail-item">
+                                <strong>Trainer Specialty:</strong> ${trainerInfo.specialty}
+                            </div>
+                            <div class="detail-item">
+                                <strong>Experience:</strong> ${trainerInfo.experience}
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+                
+                // Insert after trainer field
+                const trainerField = modal.querySelector('[for="trainerName"]').parentElement;
+                trainerField.parentNode.insertBefore(classDetails, trainerField.nextSibling);
+                
+                modal.style.display = 'block';
+            }
+
+            closeModal() {
+                document.getElementById('bookingModal').style.display = 'none';
+                document.getElementById('bookingForm').reset();
+            }
+
+            handleBooking() {
+                const className = document.getElementById('className').value;
+                const classTime = document.getElementById('classTime').value;
+                const memberName = document.getElementById('memberName').value;
+                const memberEmail = document.getElementById('memberEmail').value;
+
+                const booking = {
+                    id: Date.now(),
+                    className,
+                    classTime,
+                    memberName,
+                    memberEmail,
+                    bookedAt: new Date().toISOString()
+                };
+
+                this.userBookings.push(booking);
+                localStorage.setItem('userBookings', JSON.stringify(this.userBookings));
+
+                this.showNotification('Booking confirmed successfully!', 'success');
+                this.closeModal();
+                this.renderCalendar();
+                
+                // Schedule reminder notification
+                this.scheduleReminder(booking);
+            }
+
+            showNotification(message, type = 'info', title = null, persistent = false) {
+                const notifications = document.getElementById('notifications');
+                const notification = document.createElement('div');
+                
+                // Determine notification title based on type
+                const notificationTitle = title || this.getNotificationTitle(type);
+                
+                notification.className = `notification ${type}`;
+                notification.innerHTML = `
+                    <div class="notification-header">
+                        <div class="notification-title">
+                            <span class="notification-icon">${this.getNotificationIcon(type)}</span>
+                            ${notificationTitle}
+                        </div>
+                        <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+                    </div>
+                    <div class="notification-content">${message}</div>
+                    <div class="notification-time">${new Date().toLocaleTimeString()}</div>
+                    ${!persistent ? '<div class="notification-progress"></div>' : ''}
+                `;
+                
+                notifications.appendChild(notification);
+                
+                // Trigger animation
+                setTimeout(() => {
+                    notification.classList.add('show');
+                }, 10);
+                
+                // Auto-dismiss if not persistent
+                if (!persistent) {
+                    setTimeout(() => {
+                        notification.classList.add('hide');
+                        setTimeout(() => {
+                            if (notification.parentNode) {
+                                notification.remove();
+                            }
+                        }, 400);
+                    }, 5000);
+                }
+            }
+
+            getNotificationTitle(type) {
+                const titles = {
+                    'success': 'Success',
+                    'error': 'Error',
+                    'warning': 'Warning',
+                    'info': 'Information',
+                    'reminder': 'Reminder',
+                    'digest': 'Daily Digest'
+                };
+                return titles[type] || 'Notification';
+            }
+
+            getNotificationIcon(type) {
+                const icons = {
+                    'success': '✓',
+                    'error': '⚠',
+                    'warning': '⚠',
+                    'info': 'ℹ',
+                    'reminder': '⏰',
+                    'digest': '📋'
+                };
+                return icons[type] || '📢';
+            }
+
+            scheduleReminder(booking) {
+                // Schedule multiple reminders for the class
+                const classTime = new Date();
+                const [day, timeStr] = booking.classTime.split(' at ');
+                const [hours, minutes] = timeStr.split(':');
+                
+                // Set class time based on day of week
+                const dayIndex = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].indexOf(day);
+                const now = new Date();
+                const daysUntilClass = (dayIndex - now.getDay() + 7) % 7;
+                
+                classTime.setDate(now.getDate() + daysUntilClass);
+                classTime.setHours(parseInt(hours));
+                classTime.setMinutes(0);
+                classTime.setSeconds(0);
+                
+                // Schedule reminders at different intervals
+                const reminderTimes = [
+                    { time: 24 * 60 * 60 * 1000, message: '24 hours' }, // 24 hours before
+                    { time: 60 * 60 * 1000, message: '1 hour' },        // 1 hour before
+                    { time: 30 * 60 * 1000, message: '30 minutes' },    // 30 minutes before
+                    { time: 15 * 60 * 1000, message: '15 minutes' }     // 15 minutes before
+                ];
+                
+                reminderTimes.forEach(({ time, message }) => {
+                    const reminderTime = new Date(classTime.getTime() - time);
+                    
+                    if (reminderTime > new Date()) {
+                        setTimeout(() => {
+                            this.sendReminder(booking, message);
+                        }, reminderTime - new Date());
+                    }
+                });
+            }
+
+            sendReminder(booking, timeMessage) {
+                // Browser notification
+                if (Notification.permission === 'granted') {
+                    new Notification('Class Reminder', {
+                        body: `Your ${booking.className} class starts in ${timeMessage}!`,
+                        icon: '/favicon.ico',
+                        tag: `reminder-${booking.id}`
+                    });
+                }
+                
+                // In-app notification with reminder type
+                this.showNotification(
+                    `Your ${booking.className} class starts in ${timeMessage}`,
+                    'reminder',
+                    'Class Reminder'
+                );
+                
+                // Optional: Play sound notification
+                this.playNotificationSound();
+            }
+
+            playNotificationSound() {
+                // Create a simple notification sound
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.5);
+            }
+
+            checkUpcomingClasses() {
+                // Check for classes starting within the next hour and show persistent reminders
+                const now = new Date();
+                const oneHourFromNow = new Date(now.getTime() + (60 * 60 * 1000));
+                
+                this.userBookings.forEach(booking => {
+                    const [day, timeStr] = booking.classTime.split(' at ');
+                    const [hours] = timeStr.split(':');
+                    
+                    const dayIndex = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].indexOf(day);
+                    const daysUntilClass = (dayIndex - now.getDay() + 7) % 7;
+                    
+                    const classTime = new Date();
+                    classTime.setDate(now.getDate() + daysUntilClass);
+                    classTime.setHours(parseInt(hours));
+                    classTime.setMinutes(0);
+                    
+                    // Check if class is today and within the next hour
+                    if (daysUntilClass === 0 && classTime > now && classTime <= oneHourFromNow) {
+                        const minutesUntilClass = Math.round((classTime - now) / (60 * 1000));
+                        this.showNotification(
+                            `Upcoming: ${booking.className} in ${minutesUntilClass} minutes`,
+                            'warning'
+                        );
+                    }
+                });
+                
+                // Check for unread notifications from previous sessions
+                this.checkStoredNotifications();
+            }
+
+            checkStoredNotifications() {
+                const lastNotificationCheck = localStorage.getItem('lastNotificationCheck');
+                const now = new Date().getTime();
+                
+                if (!lastNotificationCheck || (now - parseInt(lastNotificationCheck)) > 30 * 60 * 1000) {
+                    // Show welcome notification if it's the first visit or after 30 minutes
+                    this.showNotification(
+                        'Welcome to your class schedule! You will receive reminders for your booked classes.',
+                        'info'
+                    );
+                    localStorage.setItem('lastNotificationCheck', now.toString());
+                }
+            }
+
+            requestNotificationPermission() {
+                if ('Notification' in window) {
+                    if (Notification.permission === 'default') {
+                        // Ask for permission with a custom message
+                        this.showNotification(
+                            'Enable notifications to receive class reminders',
+                            'info'
+                        );
+                        
+                        setTimeout(() => {
+                            Notification.requestPermission().then(permission => {
+                                if (permission === 'granted') {
+                                    this.showNotification(
+                                        'Notifications enabled! You will receive class reminders.',
+                                        'success'
+                                    );
+                                }
+                            });
+                        }, 2000);
+                    } else if (Notification.permission === 'denied') {
+                        this.showNotification(
+                            'Notifications are disabled. Enable them in browser settings to receive reminders.',
+                            'error'
+                        );
+                    }
+                }
+            }
+
+            // Additional notification methods
+            scheduleDailyDigest() {
+                // Schedule a daily digest of upcoming classes
+                const now = new Date();
+                const tomorrow = new Date(now);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                tomorrow.setHours(8, 0, 0, 0); // 8 AM tomorrow
+                
+                const timeUntilDigest = tomorrow - now;
+                
+                setTimeout(() => {
+                    this.sendDailyDigest();
+                    // Schedule next digest for the following day
+                    this.scheduleDailyDigest();
+                }, timeUntilDigest);
+            }
+
+            sendDailyDigest() {
+                const today = new Date();
+                const dayName = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][today.getDay()];
+                
+                const todaysBookings = this.userBookings.filter(booking => {
+                    const [bookingDay] = booking.classTime.split(' at ');
+                    return bookingDay === dayName;
+                });
+                
+                if (todaysBookings.length > 0) {
+                    const message = `Today's classes: ${todaysBookings.map(b => b.className).join(', ')}`;
+                    
+                    if (Notification.permission === 'granted') {
+                        new Notification('Daily Class Digest', {
+                            body: message,
+                            icon: '/favicon.ico'
+                        });
+                    }
+                    
+                    this.showNotification(message, 'digest', 'Daily Class Digest');
+                }
+            }
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', () => {
+            new ScheduleApp();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Gym Master</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .signup-wrapper {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .signup-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 2rem;
+            color: #333;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .form-section h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 0.5rem;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-weight: normal;
+        }
+
+        .password-strength {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .password-strength.weak {
+            color: #e74c3c;
+        }
+
+        .password-strength.medium {
+            color: #f39c12;
+        }
+
+        .password-strength.strong {
+            color: #27ae60;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .login-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-align: center;
+            width: 100%;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-align: center;
+            width: 100%;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .success-message {
+            color: #27ae60;
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+            font-weight: bold;
+        }
+
+        .social-signup {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .social-btn {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .social-btn:hover {
+            border-color: #667eea;
+            transform: translateY(-1px);
+        }
+
+        .social-btn.google {
+            color: #DB4437;
+        }
+
+        .social-btn.facebook {
+            color: #4267B2;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .signup-container {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .social-buttons {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .signup-container {
+                padding: 1.5rem;
+            }
+            
+            .form-section {
+                margin-bottom: 1.5rem;
+                padding-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-wrapper">
+        <div class="signup-container">
+            <div class="logo">Gym Master</div>
+            <h2>Join Our Fitness Community</h2>
+            
+            <!-- Social Signup Options -->
+            <div class="social-signup">
+                <p>Sign up quickly with:</p>
+                <div class="social-buttons">
+                    <button class="social-btn google" onclick="signUpWithGoogle()">
+                        <span>Google</span>
+                    </button>
+                    <button class="social-btn facebook" onclick="signUpWithFacebook()">
+                        <span>Facebook</span>
+                    </button>
+                </div>
+            </div>
+            
+            <p style="text-align: center; margin: 1rem 0; color: #666;">- or -</p>
+            
+            <form id="signupForm" action="register.php" method="POST">
+                <!-- Personal Information Section -->
+                <div class="form-section">
+                    <h3>Personal Information</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" placeholder="Enter your first name" required>
+                            <div class="error-message" id="firstNameError">Please enter your first name.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" placeholder="Enter your last name" required>
+                            <div class="error-message" id="lastNameError">Please enter your last name.</div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                        <div class="error-message" id="emailError">Please enter a valid email address.</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="phone" id="phone" placeholder="Enter your phone number" required>
+                        <div class="error-message" id="phoneError">Please enter a valid phone number.</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dateOfBirth">Date of Birth</label>
+                        <input type="dob" id="dateOfBirth" required>
+                        <div class="error-message" id="dobError">Please enter your date of birth.</div>
+                    </div>
+                </div>
+
+                <!-- Membership Information Section -->
+                <div class="form-section">
+                    <h3>Membership Details</h3>
+                    <div class="form-group">
+                        <label for="membershipType">Membership Type</label>
+                        <select id="membershipType" required>
+                            <option value="">Select membership type</option>
+                            <option value="basic">Basic ($49/month)</option>
+                            <option value="premium">Premium ($99/month)</option>
+                            <option value="elite">Elite ($199/month)</option>
+                            <option value="student">Student ($29/month)</option>
+                        </select>
+                        <div class="error-message" id="membershipError">Please select a membership type.</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="referralCode">Referral Code (Optional)</label>
+                        <input type="text" id="referralCode" placeholder="Enter referral code if any">
+                    </div>
+                </div>
+
+                <!-- Fitness Goals Section -->
+                <div class="form-section">
+                    <h3>Fitness Goals & Preferences</h3>
+                    <div class="form-group">
+                        <label>Primary Fitness Goal</label>
+                        <select id="fitnessGoal">
+                            <option value="">Select your goal</option>
+                            <option value="weight_loss">Weight Loss</option>
+                            <option value="muscle_gain">Muscle Gain</option>
+                            <option value="general_fitness">General Fitness</option>
+                            <option value="sports_training">Sports Training</option>
+                            <option value="rehabilitation">Rehabilitation</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Preferred Workout Times</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="morning" name="workoutTime" value="morning">
+                            <label for="morning">Morning (6AM-12PM)</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="afternoon" name="workoutTime" value="afternoon">
+                            <label for="afternoon">Afternoon (12PM-6PM)</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="evening" name="workoutTime" value="evening">
+                            <label for="evening">Evening (6PM-10PM)</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="experienceLevel">Fitness Experience Level</label>
+                        <select id="experienceLevel">
+                            <option value="">Select experience level</option>
+                            <option value="beginner">Beginner (0-6 months)</option>
+                            <option value="intermediate">Intermediate (6 months-2 years)</option>
+                            <option value="advanced">Advanced (2+ years)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Health Information Section -->
+                <div class="form-section">
+                    <h3>Health Information</h3>
+                    <div class="form-group">
+                        <label for="medicalConditions">Medical Conditions (Optional)</label>
+                        <textarea id="medicalConditions" placeholder="List any medical conditions or injuries we should be aware of" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="emergencyContact">Emergency Contact Name</label>
+                        <input type="text" id="emergencyContact" placeholder="Emergency contact name" required>
+                        <div class="error-message" id="emergencyContactError">Please provide an emergency contact name.</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="emergencyRelationship">Relationship</label>
+                        <select id="emergencyRelationship" required>
+                            <option value="">Select relationship</option>
+                            <option value="parent">Parent</option>
+                            <option value="friend">Friend</option>
+                            <option value="sibling">Sibling</option>
+                            <option value="spouse">Spouse</option>
+                        </select>
+                        <div class="error-message" id="relationshipError">Please select a relationship.</div>
+                    </div>
+                </div>
+
+                <!-- Account Security Section -->
+                <div class="form-section">
+                    <h3>Account Security</h3>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Create a strong password" required>
+                        <div class="password-strength" id="passwordStrength"></div>
+                        <div class="error-message" id="passwordError">Password must be at least 8 characters.</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" placeholder="Confirm your password" required>
+                        <div class="error-message" id="confirmPasswordError">Passwords do not match.</div>
+                    </div>
+                </div>
+
+                <!-- Terms and Conditions -->
+                <div class="form-section">
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="terms" required>
+                            <label for="terms">I agree to the <a href="#" style="color: #667eea;">Terms of Service</a> and <a href="#" style="color: #667eea;">Privacy Policy</a></label>
+                        </div>
+                        <div class="error-message" id="termsError">You must accept the terms and conditions.</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="newsletter">
+                            <label for="newsletter">Subscribe to our newsletter for fitness tips and updates</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">Create Account</button>
+            </form>
+            
+            <div class="success-message" id="successMessage">
+                ✓ Account created successfully! Welcome to Gym Master!
+            </div>
+            
+            <a href="login.html" class="login-link">Already have an account? Login here</a>
+            <br>
+            <a href="index.html" class="back-link">← Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        // Form validation and submission
+        const signupForm = document.getElementById('signupForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+
+        // Password strength indicator
+        const passwordInput = document.getElementById('password');
+        const passwordStrength = document.getElementById('passwordStrength');
+
+        passwordInput.addEventListener('input', function() {
+            const password = this.value;
+            let strength = '';
+            let strengthClass = '';
+
+            if (password.length === 0) {
+                strength = '';
+            } else if (password.length < 6) {
+                strength = 'Weak';
+                strengthClass = 'weak';
+            } else if (password.length < 10) {
+                strength = 'Medium';
+                strengthClass = 'medium';
+            } else if (password.length < 12) {
+                strength = 'Strong';
+                strengthClass = 'strong';
+            } else {
+                strength = 'Very Strong';
+                strengthClass = 'strong';
+            }
+
+            passwordStrength.textContent = strength;
+            passwordStrength.className = 'password-strength ' + strengthClass;
+        });
+
+        // Real-time validation functions
+        function validateName(fieldId, errorId, fieldName) {
+            const field = document.getElementById(fieldId);
+            const error = document.getElementById(errorId);
+            
+            field.addEventListener('blur', function() {
+                const value = this.value.trim();
+                if (!value) {
+                    error.textContent = `Please enter your ${fieldName}.`;
+                    error.style.display = 'block';
+                } else {
+                    error.style.display = 'none';
+                }
+            });
+        }
+
+        function validateEmail() {
+            const email = document.getElementById('email');
+            const error = document.getElementById('emailError');
+            
+            email.addEventListener('blur', function() {
+                const value = this.value.trim();
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                
+                if (!emailPattern.test(value)) {
+                    error.textContent = 'Please enter a valid email address.';
+                    error.style.display = 'block';
+                } else {
+                    error.style.display = 'none';
+                }
+            });
+        }
+
+        function validatePhone() {
+            const phone = document.getElementById('phone');
+            const error = document.getElementById('phoneError');
+            
+            phone.addEventListener('blur', function() {
+                const value = this.value.trim();
+                const phonePattern = /^[\+]?[1-9][\d]{0,15}$/;
+                
+                if (!phonePattern.test(value)) {
+                    error.textContent = 'Please enter a valid phone number.';
+                    error.style.display = 'block';
+                } else {
+                    error.style.display = 'none';
+                }
+            });
+        }
+
+        function validatePassword() {
+            const password = document.getElementById('password');
+            const error = document.getElementById('passwordError');
+            
+            password.addEventListener('blur', function() {
+                const value = this.value.trim();
+                
+                if (value.length < 8) {
+                    error.textContent = 'Password must be at least 8 characters.';
+                    error.style.display = 'block';
+                } else {
+                    error.style.display = 'none';
+                }
+            });
+        }
+
+        function validateConfirmPassword() {
+            const confirmPassword = document.getElementById('confirmPassword');
+            const error = document.getElementById('confirmPasswordError');
+            
+            confirmPassword.addEventListener('blur', function() {
+                const confirmValue = this.value.trim();
+                const passwordValue = document.getElementById('password').value.trim();
+                
+                if (confirmValue !== passwordValue) {
+                    error.textContent = 'Passwords do not match.';
+                    error.style.display = 'block';
+                } else {
+                    error.style.display = 'none';
+                }
+            });
+        }
+
+        // Initialize validation
+        validateName('firstName', 'firstNameError', 'first name');
+        validateName('lastName', 'lastNameError', 'last name');
+        validateEmail();
+        validatePhone();
+        validatePassword();
+        validateConfirmPassword();
+
+        // Real-time password matching
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const confirmPassword = this.value;
+            const password = document.getElementById('password').value;
+            const error = document.getElementById('confirmPasswordError');
+            
+            if (confirmPassword && confirmPassword !== password) {
+                error.textContent = 'Passwords do not match.';
+                error.style.display = 'block';
+            } else {
+                error.style.display = 'none';
+            }
+        });
+
+        // Form submission
+        signupForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = {
+                firstName: document.getElementById('firstName').value.trim(),
+                lastName: document.getElementById('lastName').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                dateOfBirth: document.getElementById('dateOfBirth').value,
+                membershipType: document.getElementById('membershipType').value,
+                referralCode: document.getElementById('referralCode').value.trim(),
+                fitnessGoal: document.getElementById('fitnessGoal').value,
+                experienceLevel: document.getElementById('experienceLevel').value,
+                medicalConditions: document.getElementById('medicalConditions').value.trim(),
+                emergencyContact: document.getElementById('emergencyContact').value.trim(),
+                emergencyRelationship: document.getElementById('emergencyRelationship').value,
+                password: document.getElementById('password').value.trim(),
+                workoutTimes: Array.from(document.querySelectorAll('input[name="workoutTime"]:checked')).map(cb => cb.value),
+                newsletter: document.getElementById('newsletter').checked,
+                termsAccepted: document.getElementById('terms').checked,
+                signupDate: new Date().toISOString()
+            };
+            
+            let valid = true;
+
+            // Reset error messages
+            document.querySelectorAll('.error-message').forEach(error => {
+                error.style.display = 'none';
+            });
+
+            // Validate required fields
+            if (!formData.firstName) {
+                document.getElementById('firstNameError').textContent = 'Please enter your first name.';
+                document.getElementById('firstNameError').style.display = 'block';
+                valid = false;
+            }
+
+            if (!formData.lastName) {
+                document.getElementById('lastNameError').textContent = 'Please enter your last name.';
+                document.getElementById('lastNameError').style.display = 'block';
+                valid = false;
+            }
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(formData.email)) {
+                document.getElementById('emailError').textContent = 'Please enter a valid email address.';
+                document.getElementById('emailError').style.display = 'block';
+                valid = false;
+            }
+
+            const phonePattern = /^[\+]?[1-9][\d]{0,15}$/;
+            if (!phonePattern.test(formData.phone)) {
+                document.getElementById('phoneError').textContent = 'Please enter a valid phone number.';
+                document.getElementById('phoneError').style.display = 'block';
+                valid = false;
+            }
+
+            if (!formData.dateOfBirth) {
+                document.getElementById('dobError').textContent = 'Please enter your date of birth.';
+                document.getElementById('dobError').style.display = 'block';
+                valid = false;
+            }
+
+            if (!formData.membershipType) {
+                document.getElementById('membershipError').textContent = 'Please select a membership type.';
+                document.getElementById('membershipError').style.display = 'block';
+                valid = false;
+            }
+
+            if (!formData.emergencyContact) {
+                document.getElementById('emergencyContactError').textContent = 'Please provide an emergency contact.';
+                document.getElementById('emergencyContactError').style.display = 'block';
+                valid = false;
+            }
+
+            if (!formData.emergencyRelationship) {
+                document.getElementById('relationshipError').textContent = 'Please select a relationship.';
+                document.getElementById('relationshipError').style.display = 'block';
+                valid = false;
+            }
+
+            if (formData.password.length < 8) {
+                document.getElementById('passwordError').textContent = 'Password must be at least 8 characters.';
+                document.getElementById('passwordError').style.display = 'block';
+                valid = false;
+            }
+
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+            if (confirmPassword !== formData.password) {
+                document.getElementById('confirmPasswordError').textContent = 'Passwords do not match.';
+                document.getElementById('confirmPasswordError').style.display = 'block';
+                valid = false;
+            }
+
+            if (!document.getElementById('terms').checked) {
+                document.getElementById('termsError').textContent = 'You must accept the terms and conditions.';
+                document.getElementById('termsError').style.display = 'block';
+                valid = false;
+            }
+
+            if (!valid) return;
+
+            // Show loading state
+            submitBtn.textContent = 'Creating Account...';
+            submitBtn.disabled = true;
+
+            // Simulate database submission
+            setTimeout(() => {
+                // Store in localStorage for demo purposes
+                const users = JSON.parse(localStorage.getItem('gymMasterUsers') || '[]');
+                users.push(formData);
+                localStorage.setItem('gymMasterUsers', JSON.stringify(users));
+
+                // Show success message
+                successMessage.style.display = 'block';
+                signupForm.style.display = 'none';
+
+                // Redirect to dashboard after 3 seconds
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 3000);
+            }, 2000);
+        });
+
+        // Social signup functions (demo)
+        function signUpWithGoogle() {
+            alert('Google signup would be implemented here. This is a demo.');
+        }
+
+        function signUpWithFacebook() {
+            alert('Facebook signup would be implemented here. This is a demo.');
+        }
+
+        // Set maximum date for date of birth (18 years old minimum)
+        const today = new Date();
+        const maxDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+        document.getElementById('dateOfBirth').max = maxDate.toISOString().split('T')[0];
+    </script>
+</body>
+</html>

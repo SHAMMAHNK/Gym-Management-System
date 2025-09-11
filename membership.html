@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership - Gym Master</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo h2 {
+            color: white;
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #ffd700;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .membership-hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23667eea" width="1200" height="600"/><path fill="%23764ba2" d="M0 300L50 325L100 300L150 275L200 300L250 325L300 300L350 275L400 300L450 325L500 300L550 275L600 300L650 325L700 300L750 275L800 300L850 325L900 300L950 275L1000 300L1050 325L1100 300L1150 275L1200 300V600H0V300Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 60px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #667eea, #667eea);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .pricing-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .pricing-card.featured {
+            transform: scale(1.05);
+            border: 2px solid #667eea;
+        }
+
+        .badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .price span {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-card li {
+            padding: 0.5rem 0;
+            color: #666;
+            border-bottom: 1px solid #eee;
+        }
+
+        .pricing-card li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            width: 100%;
+        }
+
+        .pricing-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 4rem 0;
+            background: #f8f9fa;
+        }
+
+        .features-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* Registration Form */
+        .registration-section {
+            padding: 4rem 0;
+            background: white;
+        }
+
+        .registration-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .registration-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group.error input,
+        .form-group.error select,
+        .form-group.error textarea {
+            border-color: #ff6b6b;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+
+        .form-group.error .error-message {
+            display: block;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 0;
+            background: #f8f9fa;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: #666;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.6s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Gym Master</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="service.html">Services</a></li>
+                <li><a href="class.html">Classes</a></li>
+                <li><a href="schedule.html">Schedule</a></li>
+                <li><a href="membership.html" class="active">Membership</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html" style="background: #ffd700; color: #333; padding: 0.5rem 1rem; border-radius: 25px; font-weight: bold;">Sign Up</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="membership-hero">
+        <div class="hero-content">
+            <h1>Join Our Fitness Community</h1>
+            <p>Choose the perfect membership plan and start your fitness journey today</p>
+            <button class="cta-button" onclick="scrollToSection('pricing')">View Plans</button>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing-section">
+        <div class="container">
+            <h2>Membership Plans</h2>
+            <div class="pricing-grid">
+                <!-- Basic Plan -->
+                <div class="pricing-card">
+                    <h3>Basic</h3>
+                    <div class="price">$49<span>/month</span></div>
+                    <ul>
+                        <li>Access to gym facilities</li>
+                        <li>Free weights area</li>
+                        <li>Cardio equipment</li>
+                        <li>Locker room access</li>
+                        <li>No contract required</li>
+                    </ul>
+                    <button class="pricing-btn" onclick="selectPlan('basic', 49)">Select Plan</button>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="pricing-card featured">
+                    <h3>Premium</h3>
+                    <div class="price">$79<span>/month</span></div>
+                    <ul>
+                        <li>All Basic features</li>
+                        <li>Group fitness classes</li>
+                        <li>Pool & sauna access</li>
+                        <li>Personal training discount</li>
+                        <li>Guest passes (2/month)</li>
+                        <li>24/7 access</li>
+                    </ul>
+                    <button class="pricing-btn" onclick="selectPlan('premium', 79)">Select Plan</button>
+                </div>
+
+                <!-- Elite Plan -->
+                <div class="pricing-card">
+                    <h3>Elite</h3>
+                    <div class="price">$129<span>/month</span></div>
+                    <ul>
+                        <li>All Premium features</li>
+                        <li>Unlimited personal training</li>
+                        <li>Nutrition counseling</li>
+                        <li>Massage therapy sessions</li>
+                        <li>Priority booking</li>
+                        <li>Exclusive events</li>
+                        <li>Family membership option</li>
+                    </ul>
+                    <button class="pricing-btn" onclick="selectPlan('elite', 129)">Select Plan</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2>Why Choose Our Gym?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🏋️</div>
+                    <h3>State-of-the-Art Equipment</h3>
+                    <p>Train with the latest fitness technology and premium equipment from top brands.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Expert Trainers</h3>
+                    <p>Certified professionals ready to guide you towards your fitness goals.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏊</div>
+                    <h3>Premium Facilities</h3>
+                    <p>Enjoy our swimming pool, sauna, steam room, and spacious locker rooms.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3>Flexible Hours</h3>
+                    <p>Open 24/7 for premium members with secure access and staff support.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🍎</div>
+                    <h3>Nutrition Support</h3>
+                    <p>Get personalized nutrition plans and dietary guidance from our experts.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Community Events</h3>
+                    <p>Join fitness challenges, workshops, and social events with fellow members.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Registration Form -->
+    <section class="registration-section">
+        <div class="container">
+            <h2>Join Our Gym Today</h2>
+            <form id="registrationForm" class="registration-form">
+                <div class="form-group">
+                    <label for="firstName">First Name *</label>
+                    <input type="text" id="firstName" name="firstName" required>
+                    <div class="error-message">Please enter your first name</div>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name *</label>
+                    <input type="text" id="lastName" name="lastName" required>
+                    <div class="error-message">Please enter your last name</div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                    <div class="error-message">Please enter a valid email address</div>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" required>
+                    <div class="error-message">Please enter a valid phone number</div>
+                </div>
+                <div class="form-group">
+                    <label for="plan">Membership Plan *</label>
+                    <select id="plan" name="plan" required>
+                        <option value="">Select a plan</option>
+                        <option value="basic">Basic - $49/month</option>
+                        <option value="premium">Premium - $79/month</option>
+                        <option value="elite">Elite - $129/month</option>
+                    </select>
+                    <div class="error-message">Please select a membership plan</div>
+                </div>
+                <div class="form-group">
+                    <label for="message">Additional Notes</label>
+                    <textarea id="message" name="message" rows="3" placeholder="Any special requests or questions..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Complete Registration</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        What's included in the membership?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        All memberships include access to our state-of-the-art equipment, locker rooms, and basic amenities. Premium and Elite members get additional benefits like group classes, pool access, and personal training discounts.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Can I cancel my membership?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Yes, you can cancel your membership at any time. Basic members can cancel with 30 days' notice, while Premium and Elite members have flexible cancellation options.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Do you offer student discounts?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Yes, we offer a 15% discount for students with valid ID on all membership plans. Please bring your student ID when you sign up.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Are personal trainers available?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Yes, we have certified personal trainers available. Elite members get unlimited sessions, while Premium members receive discounted rates. Basic members can purchase sessions separately.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        What are the gym hours?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Basic members: 5 AM - 11 PM daily. Premium and Elite members enjoy 24/7 access with secure keycard entry. Staffed hours are 5 AM - 11 PM daily.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Gym Master. All rights reserved.</p>
+            <p>123 Fitness Street, Health City, HC 12345 | info@gymmaster.com | (555) 123-4567</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu functionality
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // Smooth scrolling
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Plan selection
+        function selectPlan(plan, price) {
+            const planSelect = document.getElementById('plan');
+            planSelect.value = plan;
+            scrollToSection('registration-section');
+            
+            // Highlight the selected plan in the form
+            const options = planSelect.options;
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].value === plan) {
+                    planSelect.selectedIndex = i;
+                    break;
+                }
+            }
+            
+            // Redirect to payment page with plan details
+            window.location.href = `payment.html?plan=${plan}&price=${price}`;
+        }
+
+        // FAQ toggle
+        function toggleFAQ(element) {
+            const faqItem = element.parentElement;
+            const isActive = faqItem.classList.contains('active');
+            
+            // Close all FAQs
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Open clicked FAQ if it wasn't active
+            if (!isActive) {
+                faqItem.classList.add('active');
+            }
+        }
+
+        // Form validation and submission
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            let isValid = true;
+            const formData = new FormData(this);
+            
+            // Validate required fields
+            const requiredFields = ['firstName', 'lastName', 'email', 'phone', 'plan'];
+            requiredFields.forEach(field => {
+                const input = document.getElementById(field);
+                const errorMessage = input.nextElementSibling;
+                
+                if (!input.value.trim()) {
+                    input.parentElement.classList.add('error');
+                    isValid = false;
+                } else {
+                    input.parentElement.classList.remove('error');
+                }
+                
+                // Email validation
+                if (field === 'email' && input.value) {
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(input.value)) {
+                        input.parentElement.classList.add('error');
+                        errorMessage.textContent = 'Please enter a valid email address';
+                        isValid = false;
+                    }
+                }
+            });
+            
+            if (isValid) {
+                // Simulate form submission
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                
+                submitBtn.textContent = 'Processing...';
+                submitBtn.disabled = true;
+                
+                setTimeout(() => {
+                    // Get selected plan and price
+                    const planSelect = document.getElementById('plan');
+                    const selectedPlan = planSelect.value;
+                    let price = 49; // Default price
+                    
+                    if (selectedPlan === 'premium') price = 79;
+                    if (selectedPlan === 'elite') price = 129;
+                    
+                    // Redirect to payment page with plan details
+                    window.location.href = `payment.html?plan=${selectedPlan}&price=${price}`;
+                }, 2000);
+            }
+        });
+
+        // Real-time form validation
+        document.querySelectorAll('#registrationForm input, #registrationForm select').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value.trim()) {
+                    this.parentElement.classList.remove('error');
+                }
+            });
+        });
+
+        // Add animation to elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.pricing-card, .feature-card, .faq-item').forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>

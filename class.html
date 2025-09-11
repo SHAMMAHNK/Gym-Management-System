@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classes - Gym master</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">-->
+    <style>
+
+       * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Navigation Styles */
+.navbar {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 1rem 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-logo h2 {
+    color: white;
+    font-weight: 700;
+    font-size: 1.8rem;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-menu a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+    color: #ffd700;
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 3px;
+    background: white;
+    margin: 3px 0;
+    transition: 0.3s;
+}
+
+        /* Hero Section */
+        .classes-hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23667eea" width="1200" height="600"/><path fill="%23764ba2" d="M0 300L50 325L100 300L150 275L200 300L250 325L300 300L350 275L400 300L450 325L500 300L550 275L600 300L650 325L700 300L750 275L800 300L850 325L900 300L950 275L1000 300L1050 325L1100 300L1150 275L1200 300V600H0V300Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-top: 60px;
+        }
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.hero-content p {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.cta-button {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+/* Filter Section */
+.filter-section {
+    padding: 4rem 0;
+    background: white;
+}
+
+.filter-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #2c3e50;
+}
+
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    padding: 12px 24px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-color: transparent;
+}
+
+/* Classes Grid */
+.classes-grid {
+    padding: 4rem 0;
+    background: #f8f9fa;
+}
+
+.classes-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.class-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.class-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.class-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.class-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.class-card:hover .class-image img {
+    transform: scale(1.1);
+}
+
+.class-overlay {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.class-level {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #667eea;
+}
+
+.class-content {
+    padding: 1.5rem;
+}
+
+.class-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+}
+
+.class-content p {
+    color: #666;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.class-details {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.class-details span {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.class-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 1rem;
+}
+
+.book-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.book-btn:hover {
+    background: linear-gradient(135deg, #764ba2, #667eea);
+}
+
+/* Schedule Preview */
+.schedule-preview {
+    padding: 4rem 0;
+    background: white;
+}
+
+.schedule-preview h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #2c3e50;
+}
+
+.schedule-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 5px;
+}
+
+.tab-btn.active,
+.tab-btn:hover {
+    background: #667eea;
+    color: white;
+}
+
+.schedule-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.schedule-day {
+    display: none;
+}
+
+.schedule-day.active {
+    display: block;
+}
+
+.schedule-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.schedule-item:last-child {
+    border-bottom: none;
+}
+
+.time {
+    font-weight: 600;
+    color: #667eea;
+}
+
+.class-name {
+    font-weight: 500;
+}
+
+.trainer {
+    color: #666;
+}
+
+.spots {
+    color: #ff6b6b;
+    font-weight: 500;
+}
+
+/* Membership Section */
+.membership-section {
+    padding: 4rem 0;
+    background: #f8f9fa;
+}
+
+.membership-section h2 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #2c3e50;
+}
+
+.membership-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.membership-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    position: relative;
+}
+
+.membership-card.featured {
+    transform: scale(1.05);
+    border: 2px solid #667eea;
+}
+
+.badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff6b6b;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.membership-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+}
+
+.price {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #667eea;
+    margin-bottom: 1rem;
+}
+
+.price span {
+    font-size: 1rem;
+    color: #666;
+}
+
+.membership-card ul {
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+.membership-card li {
+    padding: 0.5rem 0;
+    color: #666;
+}
+
+.membership-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.membership-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Home Page Styles */
+.home-hero {
+    background: linear-gradient(rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8)), 
+                url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1200') center/cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    margin-top: 80px;
+}
+
+.home-content h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.home-content p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.features-section {
+    padding: 4rem 0;
+    background: white;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.feature-card {
+    text-align: center;
+    padding: 2rem;
+}
+
+.feature-icon {
+    font-size: 3rem;
+    color: #667eea;
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #2c3e
+} 
+ /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Gym Master</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="service.html">Services</a></li>
+                <li><a href="class.html" class="active">Classes</a></li>
+                <li><a href="schedule.html">Schedule</a></li>
+                <li><a href="membership.html">Membership</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="signup.html" style="background: #ffd700; color: #333; padding: 0.5rem 1rem; border-radius: 25px; font-weight: bold;">Sign Up</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="classes-hero">
+        <div class="hero-content">
+            <h1>Our Fitness Classes</h1>
+            <p>Transform your body and mind with our diverse range of expertly designed fitness classes</p>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="container">
+            <h2>Find Your Perfect Class</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Classes</button>
+                <button class="filter-btn" data-filter="strength">Strength</button>
+                <button class="filter-btn" data-filter="cardio">Cardio</button>
+                <button class="filter-btn" data-filter="mind">Mind & Body</button>
+                <button class="filter-btn" data-filter="specialty">Specialty</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Classes Grid -->
+    <section class="classes-grid">
+        <div class="container">
+            <div class="classes-container">
+                
+                <!-- HIIT Class -->
+                <div class="class-card" data-category="cardio strength">
+                    <div class="class-image">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400" alt="HIIT Training">
+                        <div class="class-overlay">
+                            <span class="class-level">All Levels</span>
+                        </div>
+                    </div>
+                    <div class="class-content">
+                        <h3>HIIT Training</h3>
+                        <p>High-intensity interval training designed to maximize calorie burn and build endurance</p>
+                        <div class="class-details">
+                            <span><i class="fas fa-clock"></i> 45 min</span>
+                            <span><i class="fas fa-fire"></i> 500+ cal</span>
+                            <span><i class="fas fa-users"></i> 20 spots</span>
+                        </div>
+                        <div class="class-price">$25/class</div>
+                        <button class="book-btn" onclick="bookClass('hiit', 'HIIT Training', 'All Levels', '45 minutes', '500+ cal', '20', '25', 'Sarah M.', 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400')">Book Class</button>
+                    </div>
+                </div>
+
+                <!-- Yoga Class -->
+                <div class="class-card" data-category="mind">
+                    <div class="class-image">
+                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400" alt="Yoga Flow">
+                        <div class="class-overlay">
+                            <span class="class-level">Beginner</span>
+                        </div>
+                    </div>
+                    <div class="class-content">
+                        <h3>Yoga Flow</h3>
+                        <p>Find balance and flexibility through mindful movement and breathing techniques</p>
+                        <div class="class-details">
+                            <span><i class="fas fa-clock"></i> 60 min</span>
+                            <span><i class="fas fa-leaf"></i> 200 cal</span>
+                            <span><i class="fas fa-users"></i> 15 spots</span>
+                        </div>
+                        <div class="class-price">$20/class</div>
+                        <button class="book-btn" onclick="bookClass('yoga', 'Yoga Flow', 'Beginner', '60 minutes', '200 cal', '15', '20', 'Emma L.', 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400')">Book Class</button>
+                    </div>
+                </div>
+
+                <!-- CrossFit Class -->
+                <div class="class-card" data-category="strength">
+                    <div class="class-image">
+                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400" alt="CrossFit">
+                        <div class="class-overlay">
+                            <span class="class-level">Intermediate</span>
+                        </div>
+                    </div>
+                    <div class="class-content">
+                        <h3>CrossFit</h3>
+                        <p>Functional fitness combining weightlifting, gymnastics, and cardio for total body conditioning</p>
+                        <div class="class-details">
+                            <span><i class="fas fa-clock"></i> 60 min</span>
+                            <span><i class="fas fa-fire"></i> 600 cal</span>
+                            <span><i class="fas fa-users"></i> 12 spots</span>
+                        </div>
+                        <div class="class-price">$30/class</div>
+                        <button class="book-btn" onclick="bookClass('crossfit', 'CrossFit', 'Intermediate', '60 minutes', '600 cal', '12', '30', 'Mike R.', 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400')">Book Class</button>
+                    </div>
+                </div>
+
+                <!-- Spin Class -->
+                <div class="class-card" data-category="cardio">
+                    <div class="class-image">
+                        <img src="https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=400" alt="Spin Class">
+                        <div class="class-overlay">
+                            <span class="class-level">All Levels</span>
+                        </div>
+                    </div>
+                    <div class="class-content">
+                        <h3>Spin Class</h3>
+                        <p>High-energy cycling workout with motivating music and expert instruction</p>
+                        <div class="class-details">
+                            <span><i class="fas fa-clock"></i> 45 min</span>
+                            <span><i class="fas fa-fire"></i> 450 cal</span>
+                            <span><i class="fas fa-users"></i> 25 spots</span>
+                        </div>
+                        <div class="class-price">$22/class</div>
+                        <button class="book-btn" onclick="bookClass('spin', 'Spin Class', 'All Levels', '45 minutes', '450 cal', '25', '22', 'Lisa K.', 'https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=400')">Book Class</button>
+                    </div>
+                </div>
+
+                <!-- Pilates Class -->
+                <div class="class-card" data-category="mind">
+                    <div class="class-image">
+                        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400" alt="Pilates">
+                        <div class="class-overlay">
+                            <span class="class-level">All Levels</span>
+                        </div>
+                    </div>
+                    <div class="class-content">
+                        <h3>Pilates Core</h3>
+                        <p>Strengthen your core and improve posture with controlled, precise movements</p>
+                        <div class="class-details">
+                            <span><i class="fas fa-clock"></i> 50 min</span>
+                            <span><i class="fas fa-leaf"></i> 250 cal</span>
+                            <span><i class="fas fa-users"></i> 18 spots</span>
+                        </div>
+                        <div class="class-price">$23/class</div>
+                        <button class="book-btn" onclick="bookClass('pilates', 'Pilates Core', 'All Levels', '50 minutes', '250 cal', '18', '23', 'Jessica T.', 'https://images.unsplash.com/photo-1518611012118-696极速赛车开奖直播历史记录072aa579a?w=400')">Book Class</button>
+                    </div>
+                </div>
+
+                <!-- Boxing Class -->
+                <div class="class-card" data-category="specialty">
+                    <div class="class-image">
+                        <img src="https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=400" alt="Boxing">
+                        <div class="class-overlay">
+                            <span class="class-level">All Levels</span>
+                        </div>
+                    </div>
+                    <div class="class-content">
+                        <h3>Boxing Fitness</h3>
+                        <p>Learn boxing techniques while getting an intense full-body cardio workout</p>
+                        <div class="class-details">
+                            <span><i class="fas fa-clock"></i> 45 min</span>
+                            <span><i class="fas fa-fire"></i> 500 cal</span>
+                            <span><i class="fas fa-users"></i> 15 spots</span>
+                        </div>
+                        <div class="class-price">$28/class</div>
+                        <button class="book-btn" onclick="bookClass('boxing', 'Boxing Fitness', 'All Levels', '45 minutes', '500 cal', '15', '28', 'John D.', 'https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=400')">Book Class</button>
+                    </div>
+                </div>
+
+                <!-- Zumba Class -->
+                <div class="class-card" data-category="cardio">
+                    <div class="class-image">
+                        <img src="https://images.unsplash.com/photo-1599058917765-a780eda07a3e?w=400" alt="Zumba">
+                        <div class="class-overlay">
+                            <span class="class-level">All Levels</span>
+                        </div>
+                    </div>
+                    <div class="class-content">
+                        <h3>Zumba Dance</h3>
+                        <p>Fun, high-energy dance fitness class combining Latin rhythms with easy-to-follow moves</p>
+                        <div class="class-details">
+                            <span><i class="fas fa-clock"></i> 60 min</span>
+                            <span><i class="fas fa-fire"></i> 400 cal</span>
+                            <span><i class="fas fa-users"></i> 30 spots</span>
+                        </div>
+                        <div class="class-price">$20/class</div>
+                        <button class="book-btn" onclick="bookClass('zumba', 'Zumba Dance', 'All Levels', '60 minutes', '400 cal', '30', '20', 'Maria S.', 'https://images.unsplash.com/photo-1599058917765-a780eda07a3e?w=400')">Book Class</button>
+                    </div>
+                </div>
+
+                <!-- Strength Training -->
+                <div class="class-card" data-category="strength">
+                    <div class="class-image">
+                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400" alt="Strength Training">
+                        <div class="class-overlay">
+                            <span class="class-level">All Levels</span>
+                        </div>
+                    </div>
+                    <div class="class-content">
+                        <h3>Strength Training</h3>
+                        <p>Build muscle and increase strength with proper form and progressive overload techniques</p>
+                        <div class="class-details">
+                            <span><i class="fas fa-clock"></i> 50 min</span>
+                            <span><i class="fas fa-fire"></i> 350 cal</span>
+                            <span><i class="fas fa-users"></i> 20 spots</span>
+                        </div>
+                        <div class="class-price">$25/class</div>
+                        <button class="book-btn" onclick="bookClass('strength', 'Strength Training', 'All Levels', '50 minutes', '350 cal', '20', '25', 'David W.', 'https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=400')">Book Class</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Preview -->
+    <section class="schedule-preview">
+        <div class="container">
+            <h2>Weekly Schedule</h2>
+            <div class="schedule-tabs">
+                <button class="tab-btn active" data-day="monday">Monday</button>
+                <button class="tab-btn" data-day="tuesday">Tuesday</button>
+                <button class="tab-btn" data-day="wednesday">Wednesday</button>
+                <button class="tab-btn" data-day="thursday">Thursday</button>
+                <button class="tab-btn" data-day="friday">Friday</button>
+                <button class="tab-btn" data-day="saturday">Saturday</button>
+                <button class="tab-btn" data-day="sunday">Sunday</button>
+            </div>
+            <div class="schedule-content">
+                <div class="schedule-day active" data-day="monday">
+                    <div class="schedule-item">
+                        <span class="time">6:00 AM</span>
+                        <span class="class-name">HIIT Training</span>
+                        <span class="trainer">Sarah M.</span>
+                        <span class="spots">5 spots left</span>
+                    </div>
+                    <div class="schedule-item">
+                        <span class="time">8:00 AM</span>
+                        <span class="class-name">Yoga Flow</span>
+                        <span class="trainer">Emma L.</span>
+                        <span class="spots">8 spots left</span>
+                    </div>
+                    <div class="schedule-item">
+                        <span class="time">12:00 PM</span>
+                        <span class="class-name">CrossFit</span>
+                        <span class="trainer">Mike R.</span>
+                        <span class="spots">3 spots left</span>
+                    </div>
+                    <div class="schedule-item">
+                        <span class="time">6:00 PM</span>
+                        <span class="class-name">Spin Class</span>
+                        <span class="trainer">Lisa K.</span>
+                        <span class="spots">10 spots left</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+   <footer>
+        <div class="container">
+            <p>&copy; 2025 Gym Master. All rights reserved.</p>
+            <p>123 Fitness Street, Health City, HC 12345 | info@gymmaster.com | (555) 123-4567</p>
+        </div>
+    </footer>
+
+
+
+                    <script>
+ // Main JavaScript file for PowerFit Gym Website
+
+// DOM Content Loaded Event
+document.addEventListener('DOMContentLoaded', function() {
+    initializeApp();
+});
+
+// Initialize all functionality
+function initializeApp() {
+    setupNavigation();
+    setupMobileMenu();
+    setupSmoothScrolling();
+    setupActiveNavigation();
+}
+
+// Navigation functionality
+function setupNavigation() {
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Remove active class from all links
+            navLinks.forEach(l => l.classList.remove('active'));
+            // Add active class to clicked link
+            this.classList.add('active');
+        });
+    });
+}
+
+// Mobile menu toggle
+function setupMobileMenu() {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Close menu when clicking on a link
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+    }
+}
+
+// Smooth scrolling for anchor links
+function setupSmoothScrolling() {
+    const links = document.querySelectorAll('a[href^="#"]');
+    
+    links.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetSection = document.querySelector(targetId);
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+}
+
+// Active navigation highlighting based on scroll position
+function setupActiveNavigation() {
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
+    
+    window.addEventListener('scroll', () => {
+        let current = '';
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            
+            if (scrollY >= (sectionTop - 200)) {
+                current = section.getAttribute('id');
+            }
+        });
+        
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${current}`) {
+                link.classList.add('active');
+            }
+        });
+    });
+}
+
+// Utility functions
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    
+    // Style the notification
+    Object.assign(notification.style, {
+        position: 'fixed',
+        top: '20px',
+        right: '20px',
+        padding: '15px 20px',
+        borderRadius: '5px',
+        color: 'white',
+        fontWeight: '500',
+        zIndex: '1000',
+        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
+        transition: 'transform 0.3s ease'
+    });
+    
+    // Set background color based on type
+    switch(type) {
+        case 'success':
+            notification.style.backgroundColor = '#28a745';
+            break;
+        case 'error':
+            notification.style.backgroundColor = '#dc3545';
+            break;
+        case 'warning':
+            notification.style.backgroundColor = '#ffc107';
+            notification.style.color = '#000';
+            break;
+        default:
+            notification.style.backgroundColor = '#007bff';
+    }
+    
+    document.body.appendChild(notification);
+    
+    // Auto remove after 3 seconds
+    setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+
+// Form validation utility
+function validateForm(form) {
+    const inputs = form.querySelectorAll('input[required], textarea[required]');
+    let isValid = true;
+    
+    inputs.forEach(input => {
+        if (!input.value.trim()) {
+            input.classList.add('error');
+            isValid = false;
+        } else {
+            input.classList.remove('error');
+        }
+        
+        // Email validation
+        if (input.type === 'email' && input.value) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(input.value)) {
+                input.classList.add('error');
+                isValid = false;
+            }
+        }
+    });
+    
+    return isValid;
+}
+
+// Loading state utility
+function showLoading(element) {
+    element.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+    element.disabled = true;
+}
+
+function hideLoading(element, originalText) {
+    element.innerHTML = originalText;
+    element.disabled = false;
+}
+
+// Export functions for use in other files
+window.PowerFitApp = {
+    showNotification,
+    validateForm,
+    showLoading,
+    hideLoading
+};
+
+// Book Class function
+function bookClass(classId, className, classLevel, duration, calories, spots, price, trainer, imageUrl) {
+    // Store class details in localStorage
+    const classDetails = {
+        id: classId,
+        name: className,
+        level: classLevel,
+        duration: duration,
+        calories: calories,
+        spots: spots,
+        price: price,
+        trainer: trainer,
+        image: imageUrl
+    };
+    
+    localStorage.setItem('selectedClass', JSON.stringify(classDetails));
+    
+    // Redirect to booking page
+    window.location.href = 'book-class.html';
+}
+
+
+                        </script>
+

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Gym Master</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-container {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            margin-bottom: 2rem;
+            color: #333;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .forgot-password {
+            margin: 1rem 0;
+        }
+
+        .forgot-password a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+
+        /* Reset Password Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            gap: 0.5rem;
+        }
+
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ddd;
+            transition: background 0.3s;
+        }
+
+        .step-dot.active {
+            background: #667eea;
+        }
+
+        .success-message {
+            color: #27ae60;
+            text-align: center;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .error-message.reset-error {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .modal-btn.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .modal-btn.secondary {
+            background: #f8f9fa;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .modal-btn:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .modal-content {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .modal-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-wrapper">
+        <div class="login-container">
+            <div class="logo">Gym Master</div>
+            <h2>Welcome Back</h2>
+            
+            <form id="loginForm" method="POST" action="register.php">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                    <div class="error-message" id="emailError">Please enter a valid email address.</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                    <div class="error-message" id="passwordError">Password must be at least 6 characters.</div>
+                </div>
+                
+            <button type="submit" class="submit-btn">Login</button>
+            </form>
+            
+            <div class="forgot-password">
+                <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+            </div>
+            
+            <a href="signup.html" class="login-link">Don't have an account? Sign up here</a>
+            <br>
+            <a href="index.html" class="back-link">← Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Reset Password Modal -->
+    <div class="modal-overlay" id="resetModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModal">×</button>
+            
+            <div class="step-indicator">
+                <div class="step-dot active" data-step="1"></div>
+                <div class="step-dot" data-step="2"></div>
+                <div class="step-dot" data-step="3"></div>
+            </div>
+
+            <!-- Step 1: Enter Email -->
+            <div class="step active" id="step1">
+                <h3>Reset Your Password</h3>
+                <p>Enter your email address to receive a reset link</p>
+                
+                <div class="form-group">
+                    <label for="resetEmail">Email Address</label>
+                    <input type="email" id="resetEmail" placeholder="Enter your email" required>
+                    <div class="error-message reset-error" id="resetEmailError"></div>
+                </div>
+                
+                <div class="modal-buttons">
+                    <button class="modal-btn secondary" id="cancelReset">Cancel</button>
+                    <button class="modal-btn primary" id="sendResetLink">Send Reset Link</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Enter New Password -->
+            <div class="step" id="step2">
+                <h3>Create New Password</h3>
+                <p>Enter your new password and confirm it</p>
+                
+                <div class="form-group">
+                    <label for="newPassword">New Password</label>
+                    <input type="password" id="newPassword" placeholder="Enter new password" required>
+                    <div class="error-message reset-error" id="newPasswordError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirm new password" required>
+                    <div class="error-message reset-error" id="confirmPasswordError"></div>
+                </div>
+                
+                <div class="modal-buttons">
+                    <button class="modal-btn secondary" id="backToStep1">Back</button>
+                    <button class="modal-btn primary" id="changePassword">Change Password</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Success -->
+            <div class="step" id="step3">
+                <h3>Password Reset Successful!</h3>
+                <p>Your password has been successfully changed.</p>
+                <div class="success-message" id="successMessage">
+                    ✓ Password updated successfully
+                </div>
+                
+                <div class="modal-buttons">
+                    <button class="modal-btn primary" id="closeSuccess">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <script>
+        // Valid credentials (for demonstration purposes)
+        const VALID_EMAIL = 'admin@gymmaster.com';
+        let VALID_PASSWORD = 'password123';
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            let valid = true;
+
+            // Reset error messages
+            document.getElementById('emailError').style.display = 'none';
+            document.getElementById('passwordError').style.display = 'none';
+
+            // Validate email format
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                document.getElementById('emailError').textContent = 'Please enter a valid email address.';
+                document.getElementById('emailError').style.display = 'block';
+                valid = false;
+            }
+
+            // Validate password length
+            if (password.length < 6) {
+                document.getElementById('passwordError').textContent = 'Password must be at least 6 characters.';
+                document.getElementById('passwordError').style.display = 'block';
+                valid = false;
+            }
+
+            // If format is valid, check credentials
+            if (valid) {
+                // Check if credentials match
+                if (email !== VALID_EMAIL || password !== VALID_PASSWORD) {
+                    document.getElementById('passwordError').textContent = 'Invalid email or password. Please try again.';
+                    document.getElementById('passwordError').style.display = 'block';
+                    valid = false;
+                }
+            }
+
+            // If credentials are valid, proceed with login
+            if (valid) {
+                // Show loading state
+                const submitBtn = document.querySelector('.submit-btn');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Logging in...';
+                submitBtn.disabled = true;
+
+                // Simulate API call
+                setTimeout(() => {
+                    alert('Login successful! Welcome to Gym Master.');
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    
+                    // Redirect to homepage
+                    window.location.href = 'index.html';
+                }, 1500);
+            }
+        });
+
+        // Real-time validation
+        document.getElementById('email').addEventListener('blur', function() {
+            const email = this.value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (email && !emailPattern.test(email)) {
+                document.getElementById('emailError').textContent = 'Please enter a valid email address.';
+                document.getElementById('emailError').style.display = 'block';
+            } else {
+                document.getElementById('emailError').style.display = 'none';
+            }
+        });
+
+        document.getElementById('password').addEventListener('blur', function() {
+            const password = this.value.trim();
+            
+            if (password && password.length < 6) {
+                document.getElementById('passwordError').textContent = 'Password must be at least 6 characters.';
+                document.getElementById('passwordError').style.display = 'block';
+            } else {
+                document.getElementById('passwordError').style.display = 'none';
+            }
+        });
+
+        // Reset Password Functionality
+        const resetModal = document.getElementById('resetModal');
+        const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+        const closeModal = document.getElementById('closeModal');
+        const cancelReset = document.getElementById('cancelReset');
+        const sendResetLink = document.getElementById('sendResetLink');
+        const backToStep1 = document.getElementById('backToStep1');
+        const changePassword = document.getElementById('changePassword');
+        const closeSuccess = document.getElementById('closeSuccess');
+
+        // Open modal
+        forgotPasswordLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            resetModal.style.display = 'flex';
+            resetForm();
+        });
+
+        // Close modal
+        function closeResetModal() {
+            resetModal.style.display = 'none';
+            resetForm();
+        }
+
+        closeModal.addEventListener('click', closeResetModal);
+        cancelReset.addEventListener('click', closeResetModal);
+        closeSuccess.addEventListener('click', closeResetModal);
+
+        // Reset form to initial state
+        function resetForm() {
+            document.getElementById('step1').classList.add('active');
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('step3').classList.remove('active');
+            
+            document.querySelectorAll('.step-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === 0);
+            });
+
+            document.getElementById('resetEmail').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmPassword').value = '';
+            
+            document.querySelectorAll('.reset-error').forEach(error => {
+                error.style.display = 'none';
+                error.textContent = '';
+            });
+
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        // Navigate to step
+        function goToStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById('step' + stepNumber).classList.add('active');
+
+            document.querySelectorAll('.step-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index < stepNumber);
+            });
+        }
+
+        // Step 1: Send reset link
+        sendResetLink.addEventListener('click', function() {
+            const email = document.getElementById('resetEmail').value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const emailError = document.getElementById('resetEmailError');
+
+            // Reset error
+            emailError.style.display = 'none';
+            emailError.textContent = '';
+
+            // Validate email
+            if (!email) {
+                emailError.textContent = 'Please enter your email address.';
+                emailError.style.display = 'block';
+                return;
+            }
+
+            if (!emailPattern.test(email)) {
+                emailError.textContent = 'Please enter a valid email address.';
+                emailError.style.display = 'block';
+                return;
+            }
+
+            // Simulate sending reset link
+            this.textContent = 'Sending...';
+            this.disabled = true;
+
+            setTimeout(() => {
+                // For demo purposes, check if it's the demo email
+                if (email === VALID_EMAIL) {
+                    goToStep(2);
+                } else {
+                    emailError.textContent = 'Email not found. Please check your email address.';
+                    emailError.style.display = 'block';
+                }
+                
+                this.textContent = 'Send Reset Link';
+                this.disabled = false;
+            }, 1000);
+        });
+
+        // Back to step 1
+        backToStep1.addEventListener('click', function() {
+            goToStep(1);
+        });
+
+        // Step 2: Change password
+        changePassword.addEventListener('click', function() {
+            const newPassword = document.getElementById('newPassword').value.trim();
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+            const newPasswordError = document.getElementById('newPasswordError');
+            const confirmPasswordError = document.getElementById('confirmPasswordError');
+
+            // Reset errors
+            newPasswordError.style.display = 'none';
+            confirmPasswordError.style.display = 'none';
+            newPasswordError.textContent = '';
+            confirmPasswordError.textContent = '';
+
+            let valid = true;
+
+            // Validate new password
+            if (!newPassword) {
+                newPasswordError.textContent = 'Please enter a new password.';
+                newPasswordError.style.display = 'block';
+                valid = false;
+            } else if (newPassword.length < 6) {
+                newPasswordError.textContent = 'Password must be at least 6 characters.';
+                newPasswordError.style.display = 'block';
+                valid = false;
+            }
+
+            // Validate confirm password
+            if (!confirmPassword) {
+                confirmPasswordError.textContent = 'Please confirm your password.';
+                confirmPasswordError.style.display = 'block';
+                valid = false;
+            } else if (newPassword !== confirmPassword) {
+                confirmPasswordError.textContent = 'Passwords do not match.';
+                confirmPasswordError.style.display = 'block';
+                valid = false;
+            }
+
+            if (!valid) return;
+
+            // Simulate password change
+            this.textContent = 'Changing...';
+            this.disabled = true;
+
+            setTimeout(() => {
+                // Update the demo password (for demonstration only)
+                // In a real application, this would call an API
+                VALID_PASSWORD = newPassword;
+                
+                goToStep(3);
+                document.getElementById('successMessage').style.display = 'block';
+                
+                this.textContent = 'Change Password';
+                this.disabled = false;
+            }, 1500);
+        });
+
+        // Close modal when clicking outside
+        resetModal.addEventListener('click', function(e) {
+            if (e.target === resetModal) {
+                closeResetModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && resetModal.style.display === 'flex') {
+                closeResetModal();
+            }
+        });
+    </script>
+</body>
+</html>
